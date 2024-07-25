@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Time Mockup</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            color: #e0e0e0;
+            overflow-x: hidden; /* Disable horizontal scrolling */
+        }
+        .header {
+            background-color: #000000;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .header .back-button {
+            position: absolute;
+            left: 10px;
+            font-size: 28px;
+            color: #007aff;
+            text-decoration: none;
+            background: transparent;
+            border: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header .back-button svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .header .back-button svg path {
+            fill: none;
+            stroke: #007aff;
+            stroke-width: 2; /* Adjust this value for thickness */
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .header .settings {
+            position: absolute;
+            left: 35px; /* Adjusted position */
+            font-size: 17px; /* Adjusted font size */
+            color: #007aff;
+        }
+        .header .title {
+            font-size: 17px;
+            font-weight: 510;
+            color: #f0f0f5;
+            text-align: center;
+        }
+        .bar {
+            background-color: #000000;
+            height: 5px;
+            width: 100%;
+            margin: 0;
+        }
+        .phone-name {
+            font-size: 12.5px;
+            color: #b0b0b0;
+            text-align: left;
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            margin-right: 20px;
+        }
+        .daily-average {
+            font-size: 17px;
+            color: #b0b0b0;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+        .average-time {
+            font-size: 24px;
+            color: #b0b0b0;
+            position: absolute;
+            top: 45px;
+            left: 15px;
+        }
+        .rounded-rectangle {
+            background-color: #1c1c1e;
+            border-radius: 8px;
+            padding: 20px;
+            width: calc(100% - 30px); /* Adjust width to include margins */
+            max-width: 600px;
+            margin: 20px 15px; /* Adjust margins for left and right */
+            min-height: 200px;
+            position: relative;
+            box-sizing: border-box; /* Include padding and border in element's total width and height */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="#" class="back-button">
+            <svg viewBox="0 0 24 24" class="icon">
+                <path d="M15 18l-6-6 6-6" stroke="#007aff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+        <div class="settings">Settings</div>
+        <div class="title">Screen Time</div>
+    </div>
+    <div class="bar"></div>
+    <div class="rounded-rectangle">
+        <div class="daily-average">Daily Average:</div>
+        <div class="average-time" id="average-time">0 minutes</div>
+        <div class="phone-name">SAVIN'S IPHONE</div>
+    </div>
+    
+    <script>
+        // Daily screen time data (in minutes)
+        const screenTimeData = [60, 45, 30, 90, 50, 120, 40]; // Example values
+
+        // Function to calculate the weekly average
+        function calculateWeeklyAverage(data) {
+            const total = data.reduce((sum, time) => sum + time, 0);
+            const average = total / data.length;
+            return average; // No rounding to handle hours and minutes separately
+        }
+
+        // Function to format the average time
+        function formatTime(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = Math.round(minutes % 60);
+            return hours > 0 ? `${hours} h ${mins} m` : `${mins} m`;
+        }
+
+        // Update the HTML with the calculated average
+        document.addEventListener("DOMContentLoaded", () => {
+            const average = calculateWeeklyAverage(screenTimeData);
+            document.getElementById('average-time').textContent = formatTime(average);
+        });
+    </script>
+</body>
+</html>
