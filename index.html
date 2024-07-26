@@ -252,24 +252,32 @@
             barsContainer.innerHTML = ''; // Clear existing bars
 
             screenTimeData.forEach((time, index) => {
-                const height = time * pixelPerMinute; // Height of the bar based on time
+                const height = (time * pixelPerMinute);
                 const xPosition = (index * 13.75) + 3.75;
                 const yPosition = (maxBarHeight - height) + 10;
 
+                // Create the bar with rounded top corners
                 const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
                 bar.setAttribute('x', xPosition);
                 bar.setAttribute('y', yPosition);
                 bar.setAttribute('width', 6.25);
                 bar.setAttribute('height', height);
+                bar.setAttribute('rx', 0.75); // Round all corners (cover bottom later)
                 bar.setAttribute('fill', 'lightblue'); // Example fill color
-                
-                // Apply rounded corners using rx and ry
-                bar.setAttribute('rx', '0.75'); // Radius for rounded corners
-                bar.setAttribute('ry', '0.75'); // Radius for rounded corners
-                
                 barsContainer.appendChild(bar);
+
+                // Create the cover rectangle to hide the rounded bottom
+                const coverRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                coverRect.setAttribute('x', xPosition);
+                coverRect.setAttribute('y', yPosition + height - 1);
+                coverRect.setAttribute('width', 6.25);
+                coverRect.setAttribute('height', 1); // Height of the cover to hide rounded bottom
+                coverRect.setAttribute('fill', 'lightblue'); // Match the fill color of the bar
+                barsContainer.appendChild(coverRect);
             });
         }
+
+
 
         // Call the function to render bars
         renderBars(screenTimeData);
