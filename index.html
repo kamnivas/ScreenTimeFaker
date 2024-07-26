@@ -135,6 +135,11 @@
             fill: #4a4a4a;
             text-anchor: start;
         }
+        .interval-label {
+            font-size: 4px;
+            fill: #4a4a4a;
+            text-anchor: start;
+        }
     </style>
 </head>
 <body>
@@ -155,6 +160,16 @@
     
     <!-- Grid SVG -->
     <svg class="grid" viewBox="0 0 105 50" width="100%" height="100%">
+
+        <!-- Mask for bars with rounded tops -->
+        <defs>
+            <mask id="bar-mask" maskUnits="userSpaceOnUse">
+                <!-- Define mask dimensions and shapes -->
+                <rect x="0" y="0" width="105" height="50" fill="white"/> <!-- Full area to be visible -->
+                <rect x="0" y="0" width="105" height="10" rx="8" fill="black"/> <!-- Rounded top mask -->
+            </mask>
+        </defs>
+
         <!-- Vertical lines for days of the week -->
         <line x1="0" y1="10" x2="0" y2="45" class="vertical-line"/>
         <line x1="13.75" y1="10" x2="13.75" y2="45" class="vertical-line"/>
@@ -166,7 +181,7 @@
         <line x1="96.25" y1="10" x2="96.25" y2="45" class="vertical-line"/>
 
     
-        <!-- Horizontal lines for intervals, adjusted to avoid vertical lines -->
+        <!-- Horizontal lines for intervals -->
         <line x1="0" y1="10" x2="96.25" y2="10" class="horizontal-line"/>
         <line x1="0" y1="17" x2="96.25" y2="17" class="horizontal-line"/>
         <line x1="0" y1="24" x2="96.25" y2="24" class="horizontal-line"/>
@@ -181,6 +196,12 @@
         <text x="56.5" y="44" class="day-label">T</text>
         <text x="70.25" y="44" class="day-label">F</text>
         <text x="84" y="44" class="day-label">S</text>
+
+        <!-- Interval labels -->
+        <g id="interval-labels"></g>
+
+        <!-- Container for bars -->
+        <g id="bars-container"></g>
     </svg>
     
 </div>
@@ -204,28 +225,67 @@
             return hours > 0 ? `${hours} h ${mins} m` : `${mins} m`;
         }
 
-        function updateIntervalLabels(totalTime) {
+        function updateIntervalLabels(screenTimeData) {
             const labelsElement = document.getElementById('interval-labels');
 
+            // Find the maximum screen time from the data
+            const maxTime = Math.max(...screenTimeData);
+            
             let labels;
-            if (totalTime >= 2 * 60) { // If total time is 2 hours or more (120 minutes)
+            let positions;
+            
+            // Determine labels based on maximum usage
+            if (maxTime >= 2 * 60) { // If max time is 2 hours or more (120 minutes)
                 labels = ["0", "2 hr", "4 hr"];
-            } else { // Default to half-hour intervals
+                positions = [39.5, 25.5, 11.5];
+            } else { // Default Case (0, 1, 2 hours)
                 labels = ["0", "1 hr", "2 hr"];
+                positions = [39.5, 25.5, 11.5];
             }
 
             // Update the labels in the HTML
             labelsElement.innerHTML = `
-                <div class="interval-label">${labels[0]}</div>
-                <div class="interval-label">${labels[1]}</div>
-                <div class="interval-label">${labels[2]}</div>
+                <text x="98" y="${positions[0]}" class="interval-label">${labels[0]}</text>
+                <text x="98" y="${positions[1]}" class="interval-label">${labels[1]}</text>
+                <text x="98" y="${positions[2]}" class="interval-label">${labels[2]}</text>
             `;
         }
+
+        // Function to render the screen time data
+        function renderBars(screenTimeData) {
+            const maxTime = Math.max(...screenTimeData);
+            const maxBarHeight = 28;
+            const pixelPerMinute = maxBarHeight / maxTime; // Calculate pixels per minute
+
+            const barsContainer = document.getElementById('bars-container');
+            barsContainer.innerHTML = ''; // Clear existing bars
+
+            screenTimeData.forEach((time, index) => {
+                const height = time * pixelPerMinute; // Height of the bar based on time
+                const xPosition = (index * 13.75) + 3.75;
+                const yPosition = (maxBarHeight - height) + 10;
+
+                const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                bar.setAttribute('x', xPosition);
+                bar.setAttribute('y', yPosition);
+                bar.setAttribute('width', 6.25);
+                bar.setAttribute('height', height);
+                bar.setAttribute('fill', 'lightblue'); // Example fill color
+                bar.setAttribute('mask', 'url(#bar-mask)'); // Apply the rounded tops mask
+                barsContainer.appendChild(bar);
+            });
+        }
+
+        // Call the function to render bars
+        renderBars(screenTimeData);
 
         // Update the HTML with the calculated average
         document.addEventListener("DOMContentLoaded", () => {
             const average = calculateWeeklyAverage(screenTimeData);
             document.getElementById('average-time').textContent = formatTime(average);
+
+            // Update interval labels based on the average time
+            updateIntervalLabels(screenTimeData);
         });
 
         if ('serviceWorker' in navigator) {
