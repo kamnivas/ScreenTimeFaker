@@ -93,31 +93,31 @@
             background-color: #1c1c1e;
             border-radius: 8px;
             padding: 20px;
-            width: calc(100% - 30px); /* Adjust width to include margins */
+            width: calc(100% - 30px);
             max-width: 600px;
-            margin: 40px 15px; /* Moved down by 20px */
+            margin: 40px 15px;
             height: 250px;
             position: relative;
             box-sizing: border-box;
-            top: 20px; /* Adjust this to align with the new top value */
+            top: 15px;
         }
         /* Styles for grid */
         .grid {
             position: absolute;
-            top: 60px; /* Ensure this is correct */
-            left: 15px; /* Ensure this is correct */
-            right: 15px; /* Ensure this is correct */
-            bottom: 20px; /* Ensure this is correct */
-            pointer-events: none; /* Allow interaction with elements underneath */
-            width: calc(100% - 30px); /* Adjust to include margins */
-            height: auto; /* Ensure height adjusts according to width */
+            top: 60px;
+            left: 15px;
+            right: 15px;
+            bottom: 20px;
+            pointer-events: none;
+            width: calc(100% - 30px);
+            height: auto;
         }
         .vertical-line {
             width: 0.1px;
             height: 100%;
             stroke: #4a4a4a;
             stroke-width: 0.1px;
-            stroke-dasharray: 1, 1; /* Dotted line style */
+            stroke-dasharray: 1, 1;
         }
         .horizontal-line {
             height: 0.1px;
@@ -125,10 +125,10 @@
             stroke: #4a4a4a;
             stroke-width: 0.1px;
         }
-        .vertical-line:nth-of-type(9) { /* Last vertical line */
+        .vertical-line:nth-of-type(9) {
             right: 0;
         }
-        .horizontal-line:nth-of-type(5) { /* Last horizontal line */
+        .horizontal-line:nth-of-type(5) {
             bottom: 0;
         }
     </style>
