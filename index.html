@@ -101,7 +101,6 @@
             box-sizing: border-box;
             top: 15px;
         }
-        /* Styles for grid */
         .grid {
             position: absolute;
             top: 60px;
@@ -189,13 +188,13 @@
     
     <script>
         // Daily screen time data (in minutes)
-        const screenTimeData = [60, 45, 30, 90, 50, 120, 40]; // Example values
+        const screenTimeData = [60, 45, 30, 90, 50, 120, 40];
 
         // Function to calculate the weekly average
         function calculateWeeklyAverage(data) {
             const total = data.reduce((sum, time) => sum + time, 0);
             const average = total / data.length;
-            return average; // No rounding to handle hours and minutes separately
+            return average;
         }
 
         // Function to format the average time
@@ -206,7 +205,7 @@
         }
 
         function updateIntervalLabels(totalTime) {
-            const labelsElement = document.getElementById('interval-labels'); // Assuming you have an element for labels
+            const labelsElement = document.getElementById('interval-labels');
 
             let labels;
             if (totalTime >= 2 * 60) { // If total time is 2 hours or more (120 minutes)
