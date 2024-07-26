@@ -166,12 +166,12 @@
         <line x1="90" y1="10" x2="90" y2="45" class="vertical-line"/>
         <line x1="105" y1="10" x2="105" y2="45" class="vertical-line"/>
     
-        <!-- Horizontal lines for intervals -->
-        <line x1="0" y1="10" x2="105" y2="10" class="horizontal-line"/>
-        <line x1="0" y1="17" x2="105" y2="17" class="horizontal-line"/>
-        <line x1="0" y1="24" x2="105" y2="24" class="horizontal-line"/>
-        <line x1="0" y1="31" x2="105" y2="31" class="horizontal-line"/>
-        <line x1="0" y1="38" x2="105" y2="38" class="horizontal-line"/>
+        <!-- Horizontal lines for intervals, adjusted to avoid vertical lines -->
+        <line x1="0" y1="10" x2="100" y2="10" class="horizontal-line"/>
+        <line x1="0" y1="17" x2="100" y2="17" class="horizontal-line"/>
+        <line x1="0" y1="24" x2="100" y2="24" class="horizontal-line"/>
+        <line x1="0" y1="31" x2="100" y2="31" class="horizontal-line"/>
+        <line x1="0" y1="38" x2="100" y2="38" class="horizontal-line"/>
     
         <!-- Day labels -->
         <text x="1.5" y="44" class="day-label">S</text>
@@ -182,6 +182,7 @@
         <text x="76.5" y="44" class="day-label">F</text>
         <text x="91.5" y="44" class="day-label">S</text>
     </svg>
+    
 </div>
 
     
@@ -201,6 +202,24 @@
             const hours = Math.floor(minutes / 60);
             const mins = Math.round(minutes % 60);
             return hours > 0 ? `${hours} h ${mins} m` : `${mins} m`;
+        }
+
+        function updateIntervalLabels(totalTime) {
+            const labelsElement = document.getElementById('interval-labels'); // Assuming you have an element for labels
+
+            let labels;
+            if (totalTime >= 2 * 60) { // If total time is 2 hours or more (120 minutes)
+                labels = ["0", "2 hr", "4 hr"];
+            } else { // Default to half-hour intervals
+                labels = ["0", "1 hr", "2 hr"];
+            }
+
+            // Update the labels in the HTML
+            labelsElement.innerHTML = `
+                <div class="interval-label">${labels[0]}</div>
+                <div class="interval-label">${labels[1]}</div>
+                <div class="interval-label">${labels[2]}</div>
+            `;
         }
 
         // Update the HTML with the calculated average
