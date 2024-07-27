@@ -249,11 +249,11 @@
         function renderBars(screenTimeData) {
             const maxTime = Math.max(...screenTimeData);
             const maxBarHeight = 28;
-            const pixelPerMinute = maxBarHeight / maxTime; // Calculate pixels per minute
+            const pixelPerMinute = maxBarHeight / maxTime;
 
             let heightMultiplier = 1;
             if (currentLabelType === 'label024') {
-                heightMultiplier = 0.5; // Reduce height by half for label024
+                heightMultiplier = 0.5;
             }
 
             const barsContainer = document.getElementById('bars-container');
@@ -270,7 +270,7 @@
                 bar.setAttribute('y', yPosition);
                 bar.setAttribute('width', 6.25);
                 bar.setAttribute('height', height);
-                bar.setAttribute('rx', 0.75); // Round all corners (cover bottom later)
+                bar.setAttribute('rx', 0.75); // Round all corners (cover rounded bottom later)
                 bar.setAttribute('fill', 'lightblue'); // Example fill color
                 barsContainer.appendChild(bar);
 
