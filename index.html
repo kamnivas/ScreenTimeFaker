@@ -100,16 +100,18 @@
             position: relative;
             box-sizing: border-box;
             top: 15px;
+            overflow: hidden;
         }
         .grid {
             position: absolute;
             top: 60px;
             left: 15px;
-            right: 15px;
+            right: 0px;
             bottom: 20px;
             pointer-events: none;
             width: calc(100% - 30px);
             height: auto;
+            overflow: visible !important;
         }
         .vertical-line {
             width: 0.1px;
@@ -178,6 +180,8 @@
         <line x1="0" y1="24" x2="96.25" y2="24" class="horizontal-line"/>
         <line x1="0" y1="31" x2="96.25" y2="31" class="horizontal-line"/>
         <line x1="0" y1="38" x2="96.25" y2="38" class="horizontal-line"/>
+        <!-- Additional horizontal line -->
+        <line x1="0" y1="52" x2="110" y2="52" class="horizontal-line"/>
     
         <!-- Day labels -->
         <text x="1.5" y="44" class="day-label">S</text>
