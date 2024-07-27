@@ -200,7 +200,7 @@
     
     <script>
         // Daily screen time data (in minutes)
-        const screenTimeData = [60, 45, 30, 90, 50, 120, 40];
+        const screenTimeData = [60, 45, 30, 90, 50, 110, 40];
 
         // Default interval labels
         let currentLabelType = 'label012';
@@ -249,7 +249,12 @@
         function renderBars(screenTimeData) {
             const maxTime = Math.max(...screenTimeData);
             const maxBarHeight = 28;
-            const pixelPerMinute = maxBarHeight / maxTime;
+            let pixelPerMinute;
+            if (currentLabelType === 'label024') {
+                pixelPerMinute = maxBarHeight / (4 * 60); // 4 hours maximum for this label type
+            } else {
+                pixelPerMinute = maxBarHeight / (2 * 60); // 2 hours maximum for this label type
+            }
 
             let heightMultiplier = 1;
             if (currentLabelType === 'label024') {
@@ -285,18 +290,14 @@
             });
         }
 
-
-
-        // Call the function to render bars
-        renderBars(screenTimeData);
-
         // Update the HTML with the calculated average
         document.addEventListener("DOMContentLoaded", () => {
             const average = calculateWeeklyAverage(screenTimeData);
             document.getElementById('average-time').textContent = formatTime(average);
 
-            // Update interval labels based on the average time
+            // Update interval labels based on the average time, then render the bars properly
             updateIntervalLabels(screenTimeData);
+            renderBars(screenTimeData);
         });
 
         if ('serviceWorker' in navigator) {
