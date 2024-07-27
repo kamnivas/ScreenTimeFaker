@@ -202,6 +202,9 @@
         // Daily screen time data (in minutes)
         const screenTimeData = [60, 45, 30, 90, 50, 120, 40];
 
+        // Default interval labels
+        let currentLabelType = 'label012';
+
         // Function to calculate the weekly average
         function calculateWeeklyAverage(data) {
             const total = data.reduce((sum, time) => sum + time, 0);
@@ -223,15 +226,15 @@
             const maxTime = Math.max(...screenTimeData);
             
             let labels;
-            let positions;
+            let positions = [39.5, 25.5, 11.5];
             
             // Determine labels based on maximum usage
             if (maxTime >= 2 * 60) { // If max time is 2 hours or more (120 minutes)
                 labels = ["0", "2 hr", "4 hr"];
-                positions = [39.5, 25.5, 11.5];
+                currentLabelType = 'label024'
             } else { // Default Case (0, 1, 2 hours)
                 labels = ["0", "1 hr", "2 hr"];
-                positions = [39.5, 25.5, 11.5];
+                currentLabelType = 'label012'
             }
 
             // Update the labels in the HTML
@@ -248,11 +251,16 @@
             const maxBarHeight = 28;
             const pixelPerMinute = maxBarHeight / maxTime; // Calculate pixels per minute
 
+            let heightMultiplier = 1;
+            if (currentLabelType === 'label024') {
+                heightMultiplier = 0.5; // Reduce height by half for label024
+            }
+
             const barsContainer = document.getElementById('bars-container');
             barsContainer.innerHTML = ''; // Clear existing bars
 
             screenTimeData.forEach((time, index) => {
-                const height = (time * pixelPerMinute);
+                const height = (time * pixelPerMinute) * heightMultiplier;
                 const xPosition = (index * 13.75) + 3.75;
                 const yPosition = (maxBarHeight - height) + 10;
 
