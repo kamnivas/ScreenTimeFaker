@@ -102,7 +102,7 @@
             position: relative;
             box-sizing: border-box;
             top: 15px;
-            overflow: hidden;
+            /* overflow: hidden; */
         }
         .grid {
             position: absolute;
@@ -143,6 +143,18 @@
             font-size: 4px;
             fill: #4a4a4a;
             text-anchor: start;
+        }
+        /* "avg" */
+        .average-text {
+            font-size: 4px;
+            fill: #41c85c;
+            text-anchor: start;
+        }
+        /* Average-time line */
+        .average-line {
+            stroke: #41c85c;
+            stroke-width: 0.4px;
+            stroke-dasharray: 1, 1.8;
         }
         /* "See All App & Website Activity" */
         .info-text {
@@ -216,6 +228,9 @@
 
         <!-- Container for bars -->
         <g id="bars-container"></g>
+
+        <!-- Average line container -->
+        <g id="average-line-container"></g>
     </svg>
     
 </div>
@@ -313,6 +328,60 @@
             });
         }
 
+        // Function to calculate the average y value for line height
+        function calculateAverageY(screenTimeData, currentLabelType) {
+            // Calculate average screen time
+            const average = calculateWeeklyAverage(screenTimeData);
+
+            // Calculate pixels per minute
+            let pixelPerMinute;
+            if (currentLabelType === 'label024') {
+                pixelPerMinute = 28 / (4 * 60); // 4 hours maximum for this label type
+            } else {
+                pixelPerMinute = 28 / (2 * 60); // 2 hours maximum for this label type
+            }
+
+            // Calculate average Y position
+            const averageYPosition = 10 + (28 - (average * pixelPerMinute));
+            return averageYPosition;
+        }
+
+        // Function to render the avg line based on the average y value
+        function renderAverageLine(screenTimeData, currentLabelType) {
+            const averageYPosition = calculateAverageY(screenTimeData, currentLabelType);
+
+            const averageLineContainer = document.getElementById('average-line-container');
+            averageLineContainer.innerHTML = ''; // Clear any existing content
+
+            // Create and append the average line
+            const averageLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            averageLine.setAttribute('x1', '0');
+            averageLine.setAttribute('y1', averageYPosition);
+            averageLine.setAttribute('x2', '96.25');
+            averageLine.setAttribute('y2', averageYPosition);
+            averageLine.setAttribute('class', 'average-line');
+            averageLineContainer.appendChild(averageLine);
+
+            // Create and append the average label
+            const averageLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            averageLabel.setAttribute('x', '98');
+            averageLabel.setAttribute('y', averageYPosition + 1);
+            averageLabel.setAttribute('class', 'average-text');
+            averageLabel.textContent = 'avg';
+            averageLineContainer.appendChild(averageLabel);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const average = calculateWeeklyAverage(screenTimeData);
+            document.getElementById('average-time').textContent = formatTime(average);
+
+            // Update interval labels based on the average time, then render the bars properly
+            updateIntervalLabels(screenTimeData);
+            renderBars(screenTimeData);
+            renderAverageLine(screenTimeData, currentLabelType);
+        });
+
+
         // Update the HTML with the calculated average
         document.addEventListener("DOMContentLoaded", () => {
             const average = calculateWeeklyAverage(screenTimeData);
@@ -321,6 +390,7 @@
             // Update interval labels based on the average time, then render the bars properly
             updateIntervalLabels(screenTimeData);
             renderBars(screenTimeData);
+            calculateAverageY(screenTimeData, currentLabelType);
         });
 
         if ('serviceWorker' in navigator) {
