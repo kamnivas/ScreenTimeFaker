@@ -56,7 +56,7 @@
         }
         .header .title {
             font-size: 17px;
-            font-weight: 510;
+            font-weight: 600;
             color: #f0f0f5;
             text-align: center;
         }
@@ -171,11 +171,11 @@
         }
         /* "Updated today at [time]" */
         .time-display {
-            font-size: 12.5px;
+            font-size: 13px;
             color: #b0b0b0;
             text-align: left;
             position: absolute;
-            top: -24px;
+            top: 275px;
             left: 15px;
             margin-right: 20px;
         }
@@ -219,7 +219,7 @@
         <line x1="0" y1="38" x2="96.25" y2="38" class="horizontal-line"/>
         
         <!-- See All App & Website Activity -->
-        <line x1="0" y1="51" x2="109.75" y2="52" class="horizontal-line"/>
+        <line x1="0" y1="52" x2="109.75" y2="52" class="horizontal-line"/>
         <text x="0" y="59.75" class="info-text">See All App & Website Activity</text>
         <path d="M0 0 L6 6 L0 12" class="arrow-icon" transform="translate(103, 56) scale(0.27)"/>
     
@@ -232,9 +232,6 @@
         <text x="70.25" y="44" class="day-label">F</text>
         <text x="84" y="44" class="day-label">S</text>
 
-        <!-- Updated today at (time will be added later) -->
-        <text x="0" y="70" class="time-display" id="time-display">Updated today at </text>
-
         <!-- Interval labels -->
         <g id="interval-labels"></g>
 
@@ -244,6 +241,7 @@
         <!-- Average line container -->
         <g id="average-line-container"></g>
     </svg>
+    <div id="time-display" class="time-display"></div>
 </div>
 
     
