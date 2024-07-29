@@ -179,6 +179,23 @@
             left: 15px;
             margin-right: 20px;
         }
+        .screenshot-container {
+        position: absolute;
+        top: 300px;
+        left: -15px;
+        width: calc(100% + 30px);
+        height: auto;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+
+        .screenshot-image {
+            width: 100%;
+            height: auto;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
@@ -242,6 +259,11 @@
         <g id="average-line-container"></g>
     </svg>
     <div id="time-display" class="time-display"></div>
+
+    <!-- Add the screenshot below the main content -->
+    <div class="screenshot-container">
+        <img src="/assets/images/main-page_bottom.png" alt="Screenshot" class="screenshot-image">
+    </div>
 </div>
 
     
