@@ -102,7 +102,6 @@
             position: relative;
             box-sizing: border-box;
             top: 15px;
-            /* overflow: hidden; */
         }
         .grid {
             position: absolute;
@@ -170,6 +169,16 @@
             stroke-linecap: round;
             stroke-linejoin: round;
         }
+        /* "Updated today at [time]" */
+        .time-display {
+            font-size: 12.5px;
+            color: #b0b0b0;
+            text-align: left;
+            position: absolute;
+            top: -24px;
+            left: 15px;
+            margin-right: 20px;
+        }
     </style>
 </head>
 <body>
@@ -210,7 +219,7 @@
         <line x1="0" y1="38" x2="96.25" y2="38" class="horizontal-line"/>
         
         <!-- See All App & Website Activity -->
-        <line x1="0" y1="51" x2="110" y2="52" class="horizontal-line"/>
+        <line x1="0" y1="51" x2="109.75" y2="52" class="horizontal-line"/>
         <text x="0" y="59.75" class="info-text">See All App & Website Activity</text>
         <path d="M0 0 L6 6 L0 12" class="arrow-icon" transform="translate(103, 56) scale(0.27)"/>
     
@@ -223,6 +232,9 @@
         <text x="70.25" y="44" class="day-label">F</text>
         <text x="84" y="44" class="day-label">S</text>
 
+        <!-- Updated today at (time will be added later) -->
+        <text x="0" y="70" class="time-display" id="time-display">Updated today at </text>
+
         <!-- Interval labels -->
         <g id="interval-labels"></g>
 
@@ -232,7 +244,6 @@
         <!-- Average line container -->
         <g id="average-line-container"></g>
     </svg>
-    
 </div>
 
     
@@ -240,8 +251,31 @@
         // Daily screen time data (in minutes)
         const screenTimeData = [60, 45, 30, 90, 50, 110, 40];
 
-        // Default interval labels
+        // Default variables
         let currentLabelType = 'label012';
+        let currentTime = '';
+
+        // On startup
+        window.onload = function() {
+            updateTime();
+        };
+
+        // Function to update the time
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            // Convert hours to 12-hour format
+            const displayHours = hours % 12 || 12;
+            const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+
+            currentTime = `${displayHours}:${displayMinutes} ${ampm}`;
+
+            // Update the HTML element with the current time
+            document.getElementById('time-display').textContent = `Updated today at ${currentTime}`;
+        }
 
         // Function to calculate the weekly average
         function calculateWeeklyAverage(data) {
@@ -370,17 +404,6 @@
             averageLabel.textContent = 'avg';
             averageLineContainer.appendChild(averageLabel);
         }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const average = calculateWeeklyAverage(screenTimeData);
-            document.getElementById('average-time').textContent = formatTime(average);
-
-            // Update interval labels based on the average time, then render the bars properly
-            updateIntervalLabels(screenTimeData);
-            renderBars(screenTimeData);
-            renderAverageLine(screenTimeData, currentLabelType);
-        });
-
 
         // Update the HTML with the calculated average
         document.addEventListener("DOMContentLoaded", () => {
