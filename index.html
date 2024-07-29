@@ -411,7 +411,7 @@
             // Update interval labels based on the average time, then render the bars properly
             updateIntervalLabels(screenTimeData);
             renderBars(screenTimeData);
-            calculateAverageY(screenTimeData, currentLabelType);
+            renderAverageLine(screenTimeData, currentLabelType);
         });
 
         if ('serviceWorker' in navigator) {
