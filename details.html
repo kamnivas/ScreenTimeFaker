@@ -67,6 +67,46 @@
             color: #f0f0f5;
             text-align: center;
         }
+        .toggle-container {
+            display: flex;
+            position: relative;
+            width: 300px; /* Adjust width as needed */
+            height: 35px; /* Adjust height as needed */
+            margin: 20px auto; /* Center container */
+            border-radius: 8px; /* Rounded corners for the container */
+            overflow: hidden; /* Hide overflow to maintain rounded corners */
+        }
+        .toggle-option {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s ease; /* Smooth color transition */
+        }
+        .week-option {
+            background-color: #1c1c1e;
+            border-radius: 8px 0px 0px 8px;
+        }
+        .day-option {
+            background-color: #1c1c1e;
+            border-radius: 0px 8px 8px 0px;
+        }
+        .highlight {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%; /* Adjust to match option width */
+            height: 100%;
+            background-color: #4caf50; /* Highlight color */
+            border-radius: 8px; /* Rounded corners to match container */
+            transition: transform 0.3s ease; /* Smooth slide transition */
+            z-index: 0;
+        }
     </style>
 </head>
 <body>
@@ -80,11 +120,40 @@
         <div class="screen-time-button" onclick="window.location.href='index.html';"></div>
         <div class="title">Savin's iPhone</div>
     </div>
-    <!-- Add your page content here -->
+
+    <!-- Week/Day toggle -->
+    <div class="toggle-container">
+        <div class="highlight" id="highlight"></div>
+        <div class="toggle-option week-option" data-option="week">Week</div>
+        <div class="toggle-option day-option" data-option="day">Day</div>
+    </div>
+    
     <script>
-        // Add JavaScript here if needed for interactive elements or functionality
+        function setupToggleSwitch() {
+            const toggleOptions = document.querySelectorAll('.toggle-option');
+            const highlight = document.getElementById('highlight');
+
+            toggleOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                const optionType = option.getAttribute('data-option');
+                const isDay = optionType === 'day';
+                
+                // Update highlight position
+                highlight.style.transform = isDay ? 'translateX(0)' : 'translateX(100%)';
+
+                // Handle additional logic for toggling data
+                if (isDay) {
+                    // Logic for showing today's data
+                    console.log('Showing today\'s data');
+                } else {
+                    // Logic for showing this week's data
+                    console.log('Showing this week\'s data');
+                }
+                });
+            });
+        }
         document.addEventListener('DOMContentLoaded', function() {
-            // Your JavaScript code here
+            setupToggleSwitch();
         });
     </script>
 </body>
