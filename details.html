@@ -70,11 +70,12 @@
         .toggle-container {
             display: flex;
             position: relative;
-            width: 300px; /* Adjust width as needed */
-            height: 35px; /* Adjust height as needed */
-            margin: 20px auto; /* Center container */
-            border-radius: 8px; /* Rounded corners for the container */
-            overflow: hidden; /* Hide overflow to maintain rounded corners */
+            width: 300px;
+            height: 35px;
+            margin: 20px auto;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #1c1c1e;
         }
         .toggle-option {
             flex: 1;
@@ -102,10 +103,10 @@
             left: 0;
             width: 50%; /* Adjust to match option width */
             height: 100%;
-            background-color: #4caf50; /* Highlight color */
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 8px; /* Rounded corners to match container */
-            transition: transform 0.3s ease; /* Smooth slide transition */
-            z-index: 0;
+            transition: transform 0.3s ease, width 0.3s ease; /* Smooth slide transition */
+            z-index: 2;
         }
     </style>
 </head>
@@ -129,31 +130,29 @@
     </div>
     
     <script>
-        function setupToggleSwitch() {
-            const toggleOptions = document.querySelectorAll('.toggle-option');
+        document.addEventListener('DOMContentLoaded', function() {
             const highlight = document.getElementById('highlight');
+            const options = document.querySelectorAll('.toggle-option');
+            const container = document.querySelector('.toggle-container');
+            const totalOptions = options.length;
 
-            toggleOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                const optionType = option.getAttribute('data-option');
-                const isDay = optionType === 'day';
-                
-                // Update highlight position
-                highlight.style.transform = isDay ? 'translateX(0)' : 'translateX(100%)';
+            // Set initial position of highlight
+            const setHighlight = (index) => {
+                const optionWidthPercentage = 100 / totalOptions;
+                highlight.style.width = `${optionWidthPercentage}%`;
+                highlight.style.transform = `translateX(${index * optionWidthPercentage}%)`;
+            };
 
-                // Handle additional logic for toggling data
-                if (isDay) {
-                    // Logic for showing today's data
-                    console.log('Showing today\'s data');
-                } else {
-                    // Logic for showing this week's data
-                    console.log('Showing this week\'s data');
-                }
+            // Set initial highlight to 'day' by default
+            const defaultOptionIndex = Array.from(options).findIndex(option => option.dataset.option === 'day');
+            setHighlight(defaultOptionIndex);
+
+            // Add click event listeners
+            options.forEach((option, index) => {
+                option.addEventListener('click', function() {
+                    setHighlight(index);
                 });
             });
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-            setupToggleSwitch();
         });
     </script>
 </body>
