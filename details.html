@@ -51,6 +51,16 @@
             font-size: 17px;
             color: #007aff;
         }
+        .header .screen-time-button {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            width: 115px;
+            height: 20px;
+            background: transparent;
+            z-index: 1;
+            text-decoration: none;
+        }
         .header .title {
             font-size: 17px;
             font-weight: 600;
@@ -61,12 +71,13 @@
 </head>
 <body>
     <div class="header">
-        <a href="index.html" class="back-button">
+        <a href="#" class="back-button">
             <svg viewBox="0 0 24 24" class="icon">
                 <path d="M15 18l-6-6 6-6" stroke="#007aff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </a>
         <div class="screen-time">Screen Time</div>
+        <div class="screen-time-button" onclick="window.location.href='index.html';"></div>
         <div class="title">Savin's iPhone</div>
     </div>
     <!-- Add your page content here -->
