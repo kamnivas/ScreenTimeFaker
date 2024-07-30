@@ -138,9 +138,9 @@
 
             // Set initial position of highlight
             const setHighlight = (index) => {
-                const optionWidthPercentage = 100 / totalOptions;
-                highlight.style.width = `${optionWidthPercentage}%`;
-                highlight.style.transform = `translateX(${index * optionWidthPercentage}%)`;
+                const optionWidth = options[0].offsetWidth; // Get the width of each option
+                highlight.style.width = `${optionWidth}px`; // Set width of highlight
+                highlight.style.transform = `translateX(${index * optionWidth}px)`; // Position highlight
             };
 
             // Set initial highlight to 'day' by default
