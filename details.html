@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Details</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+        .header {
+            background-color: #000000;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .header .back-button {
+            position: absolute;
+            left: 10px;
+            font-size: 28px;
+            color: #007aff;
+            text-decoration: none;
+            background: transparent;
+            border: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header .back-button svg {
+            width: 28px;
+            height: 28px;
+        }
+        .header .back-button svg path {
+            fill: none;
+            stroke: #007aff;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .header .screen-time {
+            position: absolute;
+            left: 35px;
+            font-size: 17px;
+            color: #007aff;
+        }
+        .header .title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #f0f0f5;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" class="back-button">
+            <svg viewBox="0 0 24 24" class="icon">
+                <path d="M15 18l-6-6 6-6" stroke="#007aff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+        <div class="screen-time">Screen Time</div>
+        <div class="title">Savin's iPhone</div>
+    </div>
+    <!-- Add your page content here -->
+    <script>
+        // Add JavaScript here if needed for interactive elements or functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Your JavaScript code here
+        });
+    </script>
+</body>
+</html>
