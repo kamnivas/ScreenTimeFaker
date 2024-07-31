@@ -110,6 +110,15 @@
             transition: transform 0.3s ease, width 0.3s ease;
             z-index: 2;
         }
+        .screen-time-label {
+            font-size: 12.5px;
+            color: #8b8b8d;
+            text-align: left;
+            position: absolute;
+            top: -24px;
+            left: 15px;
+            margin-right: 20px;
+        }
         .rounded-rectangle {
             background-color: #1c1c1e;
             border-radius: 8px;
@@ -172,6 +181,15 @@
             stroke-width: 0.4px;
             stroke-dasharray: 1, 1.8;
         }
+        .time-display {
+            font-size: 13px;
+            color: #8b8b8d;
+            text-align: left;
+            position: absolute;
+            top: 275px;
+            left: 15px;
+            margin-right: 20px;
+        }
     </style>
 </head>
 <body>
@@ -194,8 +212,7 @@
     </div>
 
     <div class="rounded-rectangle">
-        <!-- Content for the rectangle goes here -->
-    </div>
+        <div class="screen-time-label">SCREEN TIME</div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
