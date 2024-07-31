@@ -212,8 +212,97 @@
 
     <div class="rounded-rectangle" id="roundedRectangle">
         <div class="screen-time-label">SCREEN TIME</div>
+
+        <!-- Grid -->
+    <svg class="grid" viewBox="0 0 105 50" width="100%" height="100%">
+        <!-- Vertical lines -->
+        <line x1="0" y1="10" x2="0" y2="45" class="vertical-line"/>
+        <line x1="13.75" y1="10" x2="13.75" y2="45" class="vertical-line"/>
+        <line x1="27.5" y1="10" x2="27.5" y2="45" class="vertical-line"/>
+        <line x1="41.25" y1="10" x2="41.25" y2="45" class="vertical-line"/>
+        <line x1="55" y1="10" x2="55" y2="45" class="vertical-line"/>
+        <line x1="68.75" y1="10" x2="68.75" y2="45" class="vertical-line"/>
+        <line x1="82.5" y1="10" x2="82.5" y2="45" class="vertical-line"/>
+        <line x1="96.25" y1="10" x2="96.25" y2="45" class="vertical-line"/>
+    
+        <!-- Horizontal lines for intervals -->
+        <line x1="0" y1="10" x2="96.25" y2="10" class="horizontal-line"/>
+        <line x1="0" y1="17" x2="96.25" y2="17" class="horizontal-line"/>
+        <line x1="0" y1="24" x2="96.25" y2="24" class="horizontal-line"/>
+        <line x1="0" y1="31" x2="96.25" y2="31" class="horizontal-line"/>
+        <line x1="0" y1="38" x2="96.25" y2="38" class="horizontal-line"/>
+    
+        <!-- Day labels -->
+        <text x="1.5" y="44" class="day-label">S</text>
+        <text x="15.25" y="44" class="day-label">M</text>
+        <text x="29" y="44" class="day-label">T</text>
+        <text x="42.75" y="44" class="day-label">W</text>
+        <text x="56.5" y="44" class="day-label">T</text>
+        <text x="70.25" y="44" class="day-label">F</text>
+        <text x="84" y="44" class="day-label">S</text>
+
+        <!-- Interval labels -->
+        <g id="interval-labels"></g>
+    </svg>
     </div>
     <script>
+        // Function to update the time
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            // Convert hours to 12-hour format
+            const displayHours = hours % 12 || 12;
+            const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+
+            currentTime = `${displayHours}:${displayMinutes} ${ampm}`;
+
+            // Update the HTML element with the current time
+            document.getElementById('time-display').textContent = `Updated today at ${currentTime}`;
+        }
+
+        // Function to calculate the weekly average
+        function calculateWeeklyAverage(data) {
+            const total = data.reduce((sum, time) => sum + time, 0);
+            const average = total / data.length;
+            return average;
+        }
+
+        // Function to format the average time
+        function formatTime(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = Math.round(minutes % 60);
+            return hours > 0 ? `${hours} h ${mins} m` : `${mins} m`;
+        }
+
+        function updateIntervalLabels(screenTimeData) {
+            const labelsElement = document.getElementById('interval-labels');
+
+            // Find the maximum screen time from the data
+            const maxTime = Math.max(...screenTimeData);
+            
+            let labels;
+            let positions = [39.5, 25.5, 11.5];
+            
+            // Determine labels based on maximum usage
+            if (maxTime >= 2 * 60) { // If max time is 2 hours or more (120 minutes)
+                labels = ["0", "2h", "4h"];
+                currentLabelType = 'label024'
+            } else { // Default Case (0, 1, 2 hours)
+                labels = ["0", "1h", "2h"];
+                currentLabelType = 'label012'
+            }
+
+            // Update the labels in the HTML
+            labelsElement.innerHTML = `
+                <text x="98" y="${positions[0]}" class="interval-label">${labels[0]}</text>
+                <text x="98" y="${positions[1]}" class="interval-label">${labels[1]}</text>
+                <text x="98" y="${positions[2]}" class="interval-label">${labels[2]}</text>
+            `;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const highlight = document.getElementById('highlight');
             const options = document.querySelectorAll('.toggle-option');
@@ -234,6 +323,7 @@
             // Set initial highlight to 'week' by default
             const defaultOptionIndex = Array.from(options).findIndex(option => option.dataset.option === 'week');
             setHighlightAndHeight(defaultOptionIndex);
+            updateIntervalLabels(screenTimeData);
 
             // Add click event listeners
             options.forEach((option, index) => {
