@@ -207,8 +207,8 @@
     <!-- Week/Day toggle -->
     <div class="toggle-container">
         <div class="highlight" id="highlight"></div>
-        <div class="toggle-option week-option" data-option="week" data-height="300px">Week</div>
-        <div class="toggle-option day-option" data-option="day" data-height="400px">Day</div>
+        <div class="toggle-option week-option" data-option="week" rounded-rectangle-height="300px">Week</div>
+        <div class="toggle-option day-option" data-option="day" rounded-rectangle-height="395px">Day</div>
     </div>
 
     <div class="rounded-rectangle" id="roundedRectangle">
@@ -228,7 +228,7 @@
                 highlight.style.width = `${optionWidth}px`;
                 highlight.style.transform = `translateX(${index * optionWidth}px)`;
                 const selectedOption = options[index];
-                const newHeight = selectedOption.getAttribute('data-height');
+                const newHeight = selectedOption.getAttribute('rounded-rectangle-height');
                 roundedRectangle.style.height = newHeight;
             };
 
