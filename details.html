@@ -110,6 +110,68 @@
             transition: transform 0.3s ease, width 0.3s ease;
             z-index: 2;
         }
+        .rounded-rectangle {
+            background-color: #1c1c1e;
+            border-radius: 8px;
+            padding: 20px;
+            width: calc(100% - 30px);
+            max-width: 600px;
+            margin: 40px 15px;
+            height: 300px;
+            position: relative;
+            box-sizing: border-box;
+            top: 15px;
+        }
+        .grid {
+            position: absolute;
+            top: 60px;
+            left: 15px;
+            right: 15px;
+            bottom: 20px;
+            pointer-events: none;
+            width: calc(100% - 30px);
+            height: auto;
+            overflow: visible !important;
+        }
+        .vertical-line {
+            width: 0.1px;
+            height: 100%;
+            stroke: #4a4a4a;
+            stroke-width: 0.1px;
+            stroke-dasharray: 1, 1;
+        }
+        .horizontal-line {
+            height: 0.1px;
+            width: 100%;
+            stroke: #4a4a4a;
+            stroke-width: 0.1px;
+        }
+        .vertical-line:nth-of-type(9) {
+            right: 0;
+        }
+        .horizontal-line:nth-of-type(5) {
+            bottom: 0;
+        }
+        .day-label {
+            font-size: 4px;
+            fill: #4a4a4a;
+            text-anchor: start;
+        }
+        .interval-label {
+            font-size: 4px;
+            fill: #4a4a4a;
+            text-anchor: start;
+        }
+        .average-text {
+            font-size: 4px;
+            fill: #41c85c;
+            text-anchor: start;
+        }
+        .average-line {
+            stroke: #41c85c;
+            stroke-width: 0.4px;
+            stroke-dasharray: 1, 1.8;
+        }
     </style>
 </head>
 <body>
@@ -129,6 +191,10 @@
         <div class="highlight" id="highlight"></div>
         <div class="toggle-option week-option" data-option="week">Week</div>
         <div class="toggle-option day-option" data-option="day">Day</div>
+    </div>
+
+    <div class="rounded-rectangle">
+        <!-- Content for the rectangle goes here -->
     </div>
     
     <script>
