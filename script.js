@@ -4,6 +4,8 @@ const screenTimeData = [60, 45, 30, 90, 50, 110, 40];
 // Default variables
 let currentLabelType = 'label012';
 let currentTime = '';
+let viewMode = 'week'; // Default view mode
+let currentDataTime = '';
 
 // Function to update the time
 function updateTime() {
@@ -34,6 +36,49 @@ function formatTime(minutes) {
     const hours = Math.floor(minutes / 60);
     const mins = Math.round(minutes % 60);
     return hours > 0 ? `${hours} h ${mins} m` : `${mins} m`;
+}
+
+function getFormattedDate() {
+    const today = new Date();
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    const todayDate = new Date().toDateString(); // Today's date
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1); // Yesterday's date
+    const yesterdayDate = yesterday.toDateString();
+    
+    // Format the date
+    const day = today.getDate();
+    const month = monthNames[today.getMonth()];
+    
+    // Determine the label based on the date
+    if (todayDate === new Date().toDateString()) {
+        return `Today, ${month} ${day}`;
+    } else if (yesterdayDate === new Date().toDateString()) {
+        return `Yesterday, ${month} ${day}`;
+    } else {
+        // For dates beyond yesterday, return the day name and date
+        return `${dayNames[today.getDay()]}, ${month} ${day}`;
+    }
+}
+
+
+// Update current-data-time in details.html
+function updateCurrentData() {
+    if (viewMode === 'day') {
+        currentDataTime = screenTimeData[screenTimeData.length - 1]; // Assuming the last entry is today's data
+        document.querySelector('.current-data-time').textContent = formatTime(currentDataTime);
+        document.querySelector('.current-data').textContent = getFormattedDate(); // Update the label
+
+        document.querySelector('.extra-grid').style.display = 'block';
+    } else if (viewMode === 'week') {
+        currentDataTime = calculateWeeklyAverage(screenTimeData);
+        document.querySelector('.current-data-time').textContent = formatTime(currentDataTime);
+        document.querySelector('.current-data').textContent = 'Daily Average'; // Default label for week view
+
+        document.querySelector('.extra-grid').style.display = 'none';
+    }
 }
 
 function updateIntervalLabels(screenTimeData) {
@@ -153,8 +198,10 @@ function renderAverageLine(screenTimeData, currentLabelType) {
 window.updateTime = updateTime;
 window.calculateWeeklyAverage = calculateWeeklyAverage;
 window.formatTime = formatTime;
+window.updateCurrentData = updateCurrentData;
 window.updateIntervalLabels = updateIntervalLabels;
 window.renderBars = renderBars;
 window.renderAverageLine = renderAverageLine;
 window.screenTimeData = screenTimeData;
 window.currentLabelType = currentLabelType;
+window.viewMode = viewMode;

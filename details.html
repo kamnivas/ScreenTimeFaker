@@ -120,8 +120,8 @@
             left: 15px;
             margin-right: 20px;
         }
-        /* "Daily Average" */
-        .daily-average {
+        /* "Daily Average" or "Today, [month] [date]" */
+        .current-data {
             font-size: 17px;
             color: #8b8b8d;
             position: absolute;
@@ -129,7 +129,7 @@
             left: 15px;
         }
         /* Actual average time */
-        .average-time {
+        .current-data-time {
             font-size: 36px;
             color: #ffffff;
             position: absolute;
@@ -148,6 +148,17 @@
             top: 15px;
         }
         .grid {
+            position: absolute;
+            top: 60px;
+            left: 15px;
+            right: 15px;
+            bottom: 20px;
+            pointer-events: none;
+            width: calc(100% - 30px);
+            height: auto;
+            overflow: visible !important;
+        }
+        .extra-grid {
             position: absolute;
             top: 60px;
             left: 15px;
@@ -229,8 +240,8 @@
 
     <div class="rounded-rectangle" id="roundedRectangle">
         <div class="screen-time-label">SCREEN TIME</div>
-        <div class="daily-average">Daily Average</div>
-        <div class="average-time" id="average-time">0 m</div>
+        <div class="current-data">Daily Average</div>
+        <div class="current-data-time" id="current-data-time">0 m</div>
 
         <!-- Grid -->
     <svg class="grid" viewBox="0 0 105 50" width="100%" height="100%">
@@ -263,6 +274,22 @@
         <!-- Interval labels -->
         <g id="interval-labels"></g>
     </svg>
+    <!-- Extra grid beneath normal grid, only in day mode (y values +50)-->
+    <svg class="extra-grid" viewBox="0 0 105 50" width="100%" height="100%" style="display: none;">
+        <!-- Vertical lines -->
+        <line x1="0" y1="60" x2="0" y2="95" class="vertical-line"/>
+        <line x1="24.0625" y1="60" x2="24.0625" y2="95" class="vertical-line"/>
+        <line x1="48.125" y1="60" x2="48.125" y2="95" class="vertical-line"/>
+        <line x1="72.1875" y1="60" x2="72.1875" y2="95" class="vertical-line"/>
+        <line x1="96.25" y1="60" x2="96.25" y2="95" class="vertical-line"/>
+    
+        <!-- Horizontal lines for intervals -->
+        <line x1="0" y1="60" x2="96.25" y2="60" class="horizontal-line"/>
+        <line x1="0" y1="67" x2="96.25" y2="67" class="horizontal-line"/>
+        <line x1="0" y1="74" x2="96.25" y2="74" class="horizontal-line"/>
+        <line x1="0" y1="81" x2="96.25" y2="81" class="horizontal-line"/>
+        <line x1="0" y1="88" x2="96.25" y2="88" class="horizontal-line"/>
+    </svg>
     <div id="time-display" class="time-display"></div>
 </div>
     <script src="./script.js"></script>
@@ -273,6 +300,8 @@
         };
 
         document.addEventListener('DOMContentLoaded', function() {
+            updateCurrentData();
+            
             const highlight = document.getElementById('highlight');
             const options = document.querySelectorAll('.toggle-option');
             const container = document.querySelector('.toggle-container');
@@ -291,7 +320,7 @@
 
             // Average Time in h's and m's
             const average = calculateWeeklyAverage(screenTimeData);
-            document.getElementById('average-time').textContent = formatTime(average);
+            document.getElementById('current-data-time').textContent = formatTime(average);
 
             // Set initial highlight to 'week' by default
             const defaultOptionIndex = Array.from(options).findIndex(option => option.dataset.option === 'week');
@@ -301,6 +330,8 @@
             // Add click event listeners
             options.forEach((option, index) => {
                 option.addEventListener('click', function() {
+                    viewMode = option.getAttribute('data-option');
+                    updateCurrentData();
                     setHighlightAndHeight(index);
                 });
             });
