@@ -207,35 +207,39 @@
     <!-- Week/Day toggle -->
     <div class="toggle-container">
         <div class="highlight" id="highlight"></div>
-        <div class="toggle-option week-option" data-option="week">Week</div>
-        <div class="toggle-option day-option" data-option="day">Day</div>
+        <div class="toggle-option week-option" data-option="week" data-height="300px">Week</div>
+        <div class="toggle-option day-option" data-option="day" data-height="400px">Day</div>
     </div>
 
-    <div class="rounded-rectangle">
+    <div class="rounded-rectangle" id="roundedRectangle">
         <div class="screen-time-label">SCREEN TIME</div>
-    
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const highlight = document.getElementById('highlight');
             const options = document.querySelectorAll('.toggle-option');
             const container = document.querySelector('.toggle-container');
             const totalOptions = options.length;
+            const roundedRectangle = document.getElementById('roundedRectangle');
 
-            // Set initial position of highlight
-            const setHighlight = (index) => {
-                const optionWidth = options[0].offsetWidth; // Get the width of each option
-                highlight.style.width = `${optionWidth}px`; // Set width of highlight
-                highlight.style.transform = `translateX(${index * optionWidth}px)`; // Position highlight
+            // Set initial position of highlight and height of rounded rectangle
+            const setHighlightAndHeight = (index) => {
+                const optionWidth = options[0].offsetWidth;
+                highlight.style.width = `${optionWidth}px`;
+                highlight.style.transform = `translateX(${index * optionWidth}px)`;
+                const selectedOption = options[index];
+                const newHeight = selectedOption.getAttribute('data-height');
+                roundedRectangle.style.height = newHeight;
             };
 
-            // Set initial highlight to 'day' by default
+            // Set initial highlight to 'week' by default
             const defaultOptionIndex = Array.from(options).findIndex(option => option.dataset.option === 'week');
-            setHighlight(defaultOptionIndex);
+            setHighlightAndHeight(defaultOptionIndex);
 
             // Add click event listeners
             options.forEach((option, index) => {
                 option.addEventListener('click', function() {
-                    setHighlight(index);
+                    setHighlightAndHeight(index);
                 });
             });
         });
