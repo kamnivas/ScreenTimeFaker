@@ -54,7 +54,7 @@
             font-size: 17px;
             color: #007aff;
         }
-        .header .title {
+        .header .title_screentime {
             font-size: 17px;
             font-weight: 600;
             color: #f0f0f5;
@@ -236,7 +236,7 @@
             </svg>
         </a>
         <div class="settings">Settings</div>
-        <div class="title">Screen Time</div>
+        <div class="title_screentime">Screen Time</div>
         <div class="secret-button" id="secret-button"></div>
     </div>
     <div class="bar"></div>
@@ -244,7 +244,7 @@
     <div class="details-page-button" onclick="window.location.href='details.html';"></div>
     <div class="daily-average">Daily Average</div>
     <div class="average-time" id="average-time">0 m</div>
-    <div class="phone-name">SAVIN'S IPHONE</div>
+    <div class="phone-name" id="phone-name">APPLE IPHONE</div>
     
     <!-- Grid -->
     <svg class="grid" viewBox="0 0 105 50" width="100%" height="100%">
@@ -299,6 +299,7 @@
     <script>
         // On startup
         window.onload = function() {
+            loadData();
             updateTime();
         };
 
@@ -310,6 +311,9 @@
         document.addEventListener("DOMContentLoaded", () => {
             const average = calculateWeeklyAverage(screenTimeData);
             document.getElementById('average-time').textContent = formatTime(average);
+
+            const savedPhoneName = phoneNameUpper || 'Apple iPhone';
+            updateDetails(savedPhoneName);
 
             // Update interval labels based on the average time, then render the bars properly
             updateIntervalLabels(screenTimeData);

@@ -228,7 +228,7 @@
         </a>
         <div class="screen-time">Screen Time</div>
         <div class="screen-time-button" onclick="window.location.href='index.html';"></div>
-        <div class="title">Savin's iPhone</div>
+        <div class="title" id="title">Apple iPhone</div>
     </div>
 
     <!-- Week/Day toggle -->
@@ -312,6 +312,10 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             updateCurrentData();
+
+            const savedPhoneName = localStorage.getItem('phoneName') || 'Apple iPhone';
+
+            updateDetails(savedPhoneName);
             
             const highlight = document.getElementById('highlight');
             const options = document.querySelectorAll('.toggle-option');

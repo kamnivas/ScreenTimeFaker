@@ -1,11 +1,63 @@
 // Daily screen time data (in minutes)
 let screenTimeData = JSON.parse(localStorage.getItem('screenTimeData')) || [];
+let phoneName = localStorage.getItem('phoneName') || 'Apple iPhone';
+let phoneNameUpper = phoneName.toUpperCase();
 
 // Default variables
 let currentLabelType = 'label012';
 let currentTime = '';
 let viewMode = 'week';
 let currentDataTime = '';
+
+function normalizeQuotes(text) {
+    return text
+        .replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
+}
+
+// Load saved data
+function loadData() {
+    // Retrieve phoneName from localStorage or set a default value
+    const phoneName = localStorage.getItem('phoneName') || 'Apple iPhone';
+
+    // Set values for the days of the week
+    document.getElementById('Sunday').value = screenTimeData[0];
+    document.getElementById('Monday').value = screenTimeData[1];
+    document.getElementById('Tuesday').value = screenTimeData[2];
+    document.getElementById('Wednesday').value = screenTimeData[3];
+    document.getElementById('Thursday').value = screenTimeData[4];
+    document.getElementById('Friday').value = screenTimeData[5];
+    document.getElementById('Saturday').value = screenTimeData[6];
+
+    // Set phone name in input field
+    document.getElementById('phone-name').value = phoneName;
+
+    // Update text content for phone name elements
+    document.querySelector('.phone-name').textContent = phoneName.toUpperCase();
+    document.querySelector('.title').textContent = phoneName;
+}
+
+// Save changes made on input.html
+function saveChanges() {
+    // Update screenTimeData with values from inputs
+    screenTimeData[0] = parseInt(document.getElementById('Sunday').value) || 0;
+    screenTimeData[1] = parseInt(document.getElementById('Monday').value) || 0;
+    screenTimeData[2] = parseInt(document.getElementById('Tuesday').value) || 0;
+    screenTimeData[3] = parseInt(document.getElementById('Wednesday').value) || 0;
+    screenTimeData[4] = parseInt(document.getElementById('Thursday').value) || 0;
+    screenTimeData[5] = parseInt(document.getElementById('Friday').value) || 0;
+    screenTimeData[6] = parseInt(document.getElementById('Saturday').value) || 0;
+
+    // Get phone name from input field
+    const phoneName = normalizeQuotes(document.getElementById('phone-name').value.trim());
+
+    // Save data to localStorage
+    localStorage.setItem('screenTimeData', JSON.stringify(screenTimeData));
+    localStorage.setItem('phoneName', phoneName);
+
+    updateDetails(phoneName);
+
+    alert('Changes Saved');
+}
 
 // Function to update the time
 function updateTime() {
@@ -24,6 +76,21 @@ function updateTime() {
     document.getElementById('time-display').textContent = `Updated today at ${currentTime}`;
 }
 
+function updateDetails(phoneName) {
+    const phoneNameElement = document.getElementById('phone-name');
+    const titleElement = document.querySelector('.header .title');
+
+    // Update phone name with uppercase version
+    if (phoneNameElement) {
+        phoneNameElement.textContent = phoneName.toUpperCase();
+    }
+
+    // Update title with real phone name
+    if (titleElement) {
+        titleElement.textContent = phoneName;
+    }
+}
+
 // Function to calculate the weekly average
 function calculateWeeklyAverage(data) {
     // Filter out null and zero values
@@ -40,7 +107,15 @@ function calculateWeeklyAverage(data) {
 function formatTime(minutes) {
     const hours = Math.floor(minutes / 60);
     const mins = Math.round(minutes % 60);
-    return hours > 0 ? `${hours} h ${mins} m` : `${mins} m`;
+    if (hours > 0 && mins > 0) {
+        return `${hours}h ${mins}m`;
+    } else if (hours > 0) {
+        return `${hours}h`;
+    } else if (mins > 0) {
+        return `${mins}m`;
+    } else {
+        return '0m';
+    }
 }
 
 function getFormattedDate() {
@@ -219,6 +294,8 @@ function clearAllData() {
     alert('All Data Cleared');
 }
 
+window.loadData = loadData;
+window.saveChanges = saveChanges;
 window.updateTime = updateTime;
 window.calculateWeeklyAverage = calculateWeeklyAverage;
 window.formatTime = formatTime;
@@ -227,6 +304,8 @@ window.updateIntervalLabels = updateIntervalLabels;
 window.renderBars = renderBars;
 window.renderAverageLine = renderAverageLine;
 window.clearAllData = clearAllData;
+window.phoneName = phoneName;
+window.phoneNameUpper = phoneNameUpper;
 window.screenTimeData = screenTimeData;
 window.currentLabelType = currentLabelType;
 window.viewMode = viewMode;
