@@ -59,8 +59,12 @@
         }
         .button-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
+        }
+        .day-input {
+            margin: 10px 0;
         }
         .button {
             background-color: #007aff;
@@ -70,6 +74,15 @@
             font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
+            text-align: center;
+        }
+        input {
+            background-color: #222222;
+            color: #e0e0e0;
+            border: 1px solid #444444;
+            border-radius: 5px;
+            padding: 5px;
+            width: 100px;
             text-align: center;
         }
     </style>
@@ -85,13 +98,65 @@
         <div class="title">Add/Change Usage</div>
     </div>
     <div class="button-container">
-        <!-- Your form or content goes here -->
+        <div class="day-input">
+            <label for="sunday">Sunday:</label>
+            <input type="number" id="sunday" value="0">
+        </div>
+        <div class="day-input">
+            <label for="monday">Monday:</label>
+            <input type="number" id="monday" value="0">
+        </div>
+        <div class="day-input">
+            <label for="tuesday">Tuesday:</label>
+            <input type="number" id="tuesday" value="0">
+        </div>
+        <div class="day-input">
+            <label for="wednesday">Wednesday:</label>
+            <input type="number" id="wednesday" value="0">
+        </div>
+        <div class="day-input">
+            <label for="thursday">Thursday:</label>
+            <input type="number" id="thursday" value="0">
+        </div>
+        <div class="day-input">
+            <label for="friday">Friday:</label>
+            <input type="number" id="friday" value="0">
+        </div>
+        <div class="day-input">
+            <label for="saturday">Saturday:</label>
+            <input type="number" id="saturday" value="0">
+        </div>
         <button class="button" onclick="saveChanges()">Save</button>
     </div>
     <script>
+        // Initialize screenTimeData from localStorage or set to default list of zeros
+        let screenTimeData = JSON.parse(localStorage.getItem('screenTimeData')) || [0, 0, 0, 0, 0, 0, 0];
+
+        function loadData() {
+            document.getElementById('sunday').value = screenTimeData[0];
+            document.getElementById('monday').value = screenTimeData[1];
+            document.getElementById('tuesday').value = screenTimeData[2];
+            document.getElementById('wednesday').value = screenTimeData[3];
+            document.getElementById('thursday').value = screenTimeData[4];
+            document.getElementById('friday').value = screenTimeData[5];
+            document.getElementById('saturday').value = screenTimeData[6];
+        }
+
         function saveChanges() {
+            screenTimeData[0] = parseInt(document.getElementById('sunday').value) || 0;
+            screenTimeData[1] = parseInt(document.getElementById('monday').value) || 0;
+            screenTimeData[2] = parseInt(document.getElementById('tuesday').value) || 0;
+            screenTimeData[3] = parseInt(document.getElementById('wednesday').value) || 0;
+            screenTimeData[4] = parseInt(document.getElementById('thursday').value) || 0;
+            screenTimeData[5] = parseInt(document.getElementById('friday').value) || 0;
+            screenTimeData[6] = parseInt(document.getElementById('saturday').value) || 0;
+
+            localStorage.setItem('screenTimeData', JSON.stringify(screenTimeData));
             alert('Changes Saved');
         }
+
+        // Load data when the page loads
+        window.onload = loadData;
     </script>
 </body>
 </html>

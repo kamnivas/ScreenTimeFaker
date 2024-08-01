@@ -1,10 +1,10 @@
 // Daily screen time data (in minutes)
-const screenTimeData = [60, 45, 30, 90, 50, 110, 40];
+let screenTimeData = JSON.parse(localStorage.getItem('screenTimeData')) || [];
 
 // Default variables
 let currentLabelType = 'label012';
 let currentTime = '';
-let viewMode = 'week'; // Default view mode
+let viewMode = 'week';
 let currentDataTime = '';
 
 // Function to update the time
@@ -26,8 +26,13 @@ function updateTime() {
 
 // Function to calculate the weekly average
 function calculateWeeklyAverage(data) {
-    const total = data.reduce((sum, time) => sum + time, 0);
-    const average = total / data.length;
+    // Filter out null and zero values
+    const filteredData = data.filter(time => time !== null && time > 0);
+
+    if (filteredData.length === 0) return 0; // Avoid division by zero if no valid data
+
+    const total = filteredData.reduce((sum, time) => sum + time, 0);
+    const average = total / filteredData.length;
     return average;
 }
 
@@ -67,7 +72,16 @@ function getFormattedDate() {
 // Update current-data-time in details.html
 function updateCurrentData() {
     if (viewMode === 'day') {
-        currentDataTime = screenTimeData[screenTimeData.length - 1]; // Assuming the last entry is today's data
+        // Find the last non-zero, non-null entry in screenTimeData
+        let lastValidData = null;
+        for (let i = screenTimeData.length - 1; i >= 0; i--) {
+            if (screenTimeData[i] !== null && screenTimeData[i] > 0) {
+                lastValidData = screenTimeData[i];
+                break;
+            }
+        }
+        currentDataTime = lastValidData !== null ? lastValidData : 0;
+
         document.querySelector('.current-data-time').textContent = formatTime(currentDataTime);
         document.querySelector('.current-data').textContent = getFormattedDate(); // Update the label
 
@@ -109,7 +123,6 @@ function updateIntervalLabels(screenTimeData) {
 
 // Function to render the screen time data
 function renderBars(screenTimeData) {
-    const maxTime = Math.max(...screenTimeData);
     const maxBarHeight = 28;
     let pixelPerMinute;
     if (currentLabelType === 'label024') {
@@ -127,28 +140,30 @@ function renderBars(screenTimeData) {
     barsContainer.innerHTML = ''; // Clear existing bars
 
     screenTimeData.forEach((time, index) => {
-        const height = (time * pixelPerMinute) * heightMultiplier;
-        const xPosition = (index * 13.75) + 3.75;
-        const yPosition = (maxBarHeight - height) + 10;
+        if (time !== null && time > 0) {
+            const height = (time * pixelPerMinute) * heightMultiplier;
+            const xPosition = (index * 13.75) + 3.75;
+            const yPosition = (maxBarHeight - height) + 10;
 
-        // Create the bar with rounded top corners
-        const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        bar.setAttribute('x', xPosition);
-        bar.setAttribute('y', yPosition);
-        bar.setAttribute('width', 6.25);
-        bar.setAttribute('height', height);
-        bar.setAttribute('rx', 0.75); // Round all corners (cover rounded bottom later)
-        bar.setAttribute('fill', '#40c8e0');
-        barsContainer.appendChild(bar);
+            // Create the bar with rounded top corners
+            const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            bar.setAttribute('x', xPosition);
+            bar.setAttribute('y', yPosition);
+            bar.setAttribute('width', 6.25);
+            bar.setAttribute('height', height);
+            bar.setAttribute('rx', 0.75); // Round all corners (cover rounded bottom later)
+            bar.setAttribute('fill', '#40c8e0');
+            barsContainer.appendChild(bar);
 
-        // Cover rectangle to hide rounded bottom
-        const coverRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        coverRect.setAttribute('x', xPosition);
-        coverRect.setAttribute('y', yPosition + height - 1);
-        coverRect.setAttribute('width', 6.25);
-        coverRect.setAttribute('height', 1); // Height of the cover to hide rounded bottom
-        coverRect.setAttribute('fill', '#40c8e0');
-        barsContainer.appendChild(coverRect);
+            // Cover rectangle to hide rounded bottom
+            const coverRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            coverRect.setAttribute('x', xPosition);
+            coverRect.setAttribute('y', yPosition + height - 1);
+            coverRect.setAttribute('width', 6.25);
+            coverRect.setAttribute('height', 1); // Height of the cover to hide rounded bottom
+            coverRect.setAttribute('fill', '#40c8e0');
+            barsContainer.appendChild(coverRect);
+        }
     });
 }
 
