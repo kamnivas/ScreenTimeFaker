@@ -216,7 +216,7 @@ function renderAverageLine(screenTimeData, currentLabelType) {
 
 function clearAllData() {
     localStorage.clear();
-    alert('All local storage data cleared!');
+    alert('All Data Cleared');
 }
 
 window.updateTime = updateTime;
