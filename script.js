@@ -187,6 +187,10 @@ function calculateAverageY(screenTimeData, currentLabelType) {
 
 // Function to render the avg line based on the average y value
 function renderAverageLine(screenTimeData, currentLabelType) {
+    const hasNonZero = screenTimeData.some(time => time > 0);
+    if (!hasNonZero) {
+        return;
+    }
     const averageYPosition = calculateAverageY(screenTimeData, currentLabelType);
 
     const averageLineContainer = document.getElementById('average-line-container');
