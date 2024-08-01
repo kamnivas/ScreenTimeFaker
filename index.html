@@ -218,6 +218,14 @@
             height: auto;
             box-sizing: border-box;
         }
+        .secret-button {
+            position: absolute;
+            top: 1320px;
+            left: 25px;
+            width: 255px;
+            height: 30px;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
@@ -229,6 +237,7 @@
         </a>
         <div class="settings">Settings</div>
         <div class="title">Screen Time</div>
+        <div class="secret-button" id="secret-button"></div>
     </div>
     <div class="bar"></div>
     <div class="rounded-rectangle">
@@ -293,6 +302,10 @@
             updateTime();
         };
 
+        // Secret Button Triple Click
+        let clickCount = 0;
+        const secretButton = document.getElementById('secret-button');
+
         // Update the HTML with the calculated average
         document.addEventListener("DOMContentLoaded", () => {
             const average = calculateWeeklyAverage(screenTimeData);
@@ -313,6 +326,16 @@
                     console.log('ServiceWorker registration failed: ', error);
                 });
         }
+
+        secretButton.addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 3) {
+                window.location.href = 'input.html';
+            }
+            setTimeout(() => {
+                clickCount = 0;
+            }, 500); // Reset count if not clicked 3 times within 500ms
+        });
     </script>
 </body>
 </html>
