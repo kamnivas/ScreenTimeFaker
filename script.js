@@ -210,6 +210,11 @@ function renderAverageLine(screenTimeData, currentLabelType) {
     averageLineContainer.appendChild(averageLabel);
 }
 
+function clearAllData() {
+    localStorage.clear();
+    alert('All local storage data cleared!');
+}
+
 window.updateTime = updateTime;
 window.calculateWeeklyAverage = calculateWeeklyAverage;
 window.formatTime = formatTime;
@@ -217,6 +222,7 @@ window.updateCurrentData = updateCurrentData;
 window.updateIntervalLabels = updateIntervalLabels;
 window.renderBars = renderBars;
 window.renderAverageLine = renderAverageLine;
+window.clearAllData = clearAllData;
 window.screenTimeData = screenTimeData;
 window.currentLabelType = currentLabelType;
 window.viewMode = viewMode;

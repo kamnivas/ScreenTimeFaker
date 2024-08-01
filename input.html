@@ -85,6 +85,23 @@
             width: 100px;
             text-align: center;
         }
+        .clear-data-button-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+        .clear-data-button {
+            background-color: #ff3b30;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -127,7 +144,11 @@
             <input type="number" id="saturday" value="0">
         </div>
         <button class="button" onclick="saveChanges()">Save</button>
+        <div class="clear-data-button-container">
+            <button class="clear-data-button" onclick="clearAllData()">Clear All Data</button>
+        </div>
     </div>
+    <script src="./script.js"></script>
     <script>
         // Initialize screenTimeData from localStorage or set to default list of zeros
         let screenTimeData = JSON.parse(localStorage.getItem('screenTimeData')) || [0, 0, 0, 0, 0, 0, 0];
