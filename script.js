@@ -177,10 +177,18 @@ function updateIntervalLabels(screenTimeData) {
     const maxTime = Math.max(...screenTimeData);
     
     let labels;
-    let positions = [39.5, 25.5, 11.5];
     
     // Determine labels based on maximum usage
-    if (maxTime >= 2 * 60) { // If max time is 2 hours or more (120 minutes)
+    if (maxTime >= 12 * 60) { // If max time is 12 hours or more
+        labels = ["0", "12h", "24h"];
+        currentLabelType = 'label01224'
+    } else if (maxTime >= 6 * 60) { // If max time is 6 hours or more
+        labels = ["0", "6h", "12h"];
+        currentLabelType = 'label0612'
+    } else if (maxTime >= 4 * 60) { // If max time is 4 hours or more
+        labels = ["0", "4h", "8h"];
+        currentLabelType = 'label048'
+    } else if (maxTime >= 2 * 60) { // If max time is 2 hours or more
         labels = ["0", "2h", "4h"];
         currentLabelType = 'label024'
     } else { // Default Case (0, 1, 2 hours)
@@ -190,9 +198,9 @@ function updateIntervalLabels(screenTimeData) {
 
     // Update the labels in the HTML
     labelsElement.innerHTML = `
-        <text x="98" y="${positions[0]}" class="interval-label">${labels[0]}</text>
-        <text x="98" y="${positions[1]}" class="interval-label">${labels[1]}</text>
-        <text x="98" y="${positions[2]}" class="interval-label">${labels[2]}</text>
+        <text x="98" y="39.5" class="interval-label">${labels[0]}</text>
+        <text x="98" y="25.5" class="interval-label">${labels[1]}</text>
+        <text x="98" y="11.5" class="interval-label">${labels[2]}</text>
     `;
 }
 
@@ -200,15 +208,17 @@ function updateIntervalLabels(screenTimeData) {
 function renderBars(screenTimeData) {
     const maxBarHeight = 28;
     let pixelPerMinute;
-    if (currentLabelType === 'label024') {
-        pixelPerMinute = maxBarHeight / (4 * 60); // 4 hours maximum for this label type
-    } else {
-        pixelPerMinute = maxBarHeight / (2 * 60); // 2 hours maximum for this label type
-    }
 
-    let heightMultiplier = 1;
-    if (currentLabelType === 'label024') {
-        heightMultiplier = 0.5;
+    if (currentLabelType === 'label01224') {
+        pixelPerMinute = maxBarHeight / (24 * 60);
+    } else if (currentLabelType === 'label0612') {
+        pixelPerMinute = maxBarHeight / (12 * 60);
+    } else if (currentLabelType === 'label048') {
+        pixelPerMinute = maxBarHeight / (8 * 60);
+    } else if (currentLabelType === 'label024') {
+        pixelPerMinute = maxBarHeight / (4 * 60);
+    } else {
+        pixelPerMinute = maxBarHeight / (2 * 60);
     }
 
     const barsContainer = document.getElementById('bars-container');
@@ -216,7 +226,7 @@ function renderBars(screenTimeData) {
 
     screenTimeData.forEach((time, index) => {
         if (time !== null && time > 0) {
-            const height = (time * pixelPerMinute) * heightMultiplier;
+            const height = time * pixelPerMinute;
             const xPosition = (index * 13.75) + 3.75;
             const yPosition = (maxBarHeight - height) + 10;
 
@@ -249,7 +259,13 @@ function calculateAverageY(screenTimeData, currentLabelType) {
 
     // Calculate pixels per minute
     let pixelPerMinute;
-    if (currentLabelType === 'label024') {
+    if (currentLabelType === 'label01224') {
+        pixelPerMinute = 28 / (24 * 60); // 24 hours maximum for this label type
+    } else if (currentLabelType === 'label0612') {
+        pixelPerMinute = 28 / (12 * 60); // 12 hours maximum for this label type
+    } else if (currentLabelType === 'label048') {
+        pixelPerMinute = 28 / (8 * 60); // 8 hours maximum for this label type
+    } else if (currentLabelType === 'label024') {
         pixelPerMinute = 28 / (4 * 60); // 4 hours maximum for this label type
     } else {
         pixelPerMinute = 28 / (2 * 60); // 2 hours maximum for this label type
