@@ -7,9 +7,6 @@ If you would like to try it now, here you go:
 
 ============================== INSTALLATION ==============================
 1. Click/copy and paste this link: https://kamnivas.github.io/ScreenTimeFaker
-    Here's a few things you need to know
-    - You MUST use Google Chrome, Safari won't do it (I cannot speak for other browsers)
-    - This is to ensure that you get fullscreen after the installation proccess
 2. Add the webpage to home screen
     If you do not already know how to do this, here you go (2 tutorials in 1!):
     - Press share (rectangle with an arrow pointing up)
