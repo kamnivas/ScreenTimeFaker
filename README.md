@@ -39,5 +39,16 @@ Edit to your heart's desire, but there are a few things that I wouldn't reccomen
     - Please keep the phone name to your name, and then iPhone, that would fit the best
     - eg. Kamnivas's iPhone
 
+==================== TROUBLESHOOTING ====================
+I have run into a few issues myself. I will update this list with fixes as needed
+1. Data is not saving
+    Make sure you have enough storage quota, you can do this by...
+    - Go to settings and find Safari
+    - Scroll all the way down to Advanced
+    - At the very top, click website data
+    - Swipe left to delete data for websites
+    - You can also scroll all the way down for the option to clear all website data
+    This worked for me, I think it's worth a shot, then I realized how much website data I had
+
 Feel free to DM me and thank me on Discord: kamnivas
 (Please mention something about ScreenTimeFaker so that I know you didn't make a username typo)
