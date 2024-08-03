@@ -30,8 +30,8 @@ Triple-Click the secret button to access the Add/Edit Usage Page
 ========== THIS APP IS NOT STUPID PROOF ==========
 Edit to your heart's desire, but there are a few things that I wouldn't reccomend doing
 1. Negative minutes
-    - Ok maybe for memes...but not for fooling parents
-    - This will not result in a crash, but it will affect the daily average and a bar will not show up
+    - This will not result in a crash, but it will only result in it counting as 0, or nonexistent
+    - You're also wasting your time doing this
 2. More than 24 hours
     - Yes, also ok for memes, but that wasn't this app's intention
     - This will also not result in a crash, but the bar will be extended very high up
