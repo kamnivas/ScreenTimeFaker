@@ -33,7 +33,9 @@ let saturdayScreenTimeData = JSON.parse(localStorage.getItem('saturdayScreenTime
 
 // Function to calculate the total screen time for each day
 function calculateTotalScreenTime(dayData) {
-    return Object.values(dayData).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    return Object.values(dayData)
+        .map(value => Number(value))
+        .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 }
 
 // Calculate totals for each day
