@@ -243,7 +243,7 @@
     <div class="rounded-rectangle">
     <div class="details-page-button" onclick="window.location.href='details.html';"></div>
     <div class="daily-average">Daily Average</div>
-    <div class="average-time" id="average-time"></div>
+    <div class="average-time" id="average-time">0 m</div>
     <div class="phone-name" id="phone-name">APPLE IPHONE</div>
     
     <!-- Grid -->
@@ -258,7 +258,7 @@
         <line x1="82.5" y1="10" x2="82.5" y2="45" class="vertical-line"/>
         <line x1="96.25" y1="10" x2="96.25" y2="45" class="vertical-line"/>
     
-        <!-- Horizontal lines -->
+        <!-- Horizontal lines for intervals -->
         <line x1="0" y1="10" x2="96.25" y2="10" class="horizontal-line"/>
         <line x1="0" y1="17" x2="96.25" y2="17" class="horizontal-line"/>
         <line x1="0" y1="24" x2="96.25" y2="24" class="horizontal-line"/>
@@ -290,7 +290,7 @@
     </svg>
     <div id="time-display" class="time-display"></div>
 
-    <!-- Screenshot below main content -->
+    <!-- Add the screenshot below the main content -->
     <div class="screenshot-container">
         <img src="assets/images/main-page_bottom.png" alt="Screenshot" class="screenshot-image">
     </div>
@@ -309,16 +309,16 @@
 
         // Update the HTML with the calculated average
         document.addEventListener("DOMContentLoaded", () => {
-            const average = calculateWeeklyAverage(totalScreenTimeData);
+            const average = calculateWeeklyAverage(screenTimeData);
             document.getElementById('average-time').textContent = formatTime(average);
 
             const savedPhoneName = phoneNameUpper || 'Apple iPhone';
             updateDetails(savedPhoneName);
 
             // Update interval labels based on the average time, then render the bars properly
-            updateIntervalLabels(totalScreenTimeData);
-            renderBars(totalScreenTimeData);
-            renderAverageLine(totalScreenTimeData, currentLabelType);
+            updateIntervalLabels(screenTimeData);
+            renderBars(screenTimeData);
+            renderAverageLine(screenTimeData, currentLabelType);
         });
 
         if ('serviceWorker' in navigator) {
@@ -338,7 +338,7 @@
             }
             setTimeout(() => {
                 clickCount = 0;
-            }, 500);
+            }, 500); z
         });
     </script>
 </body>

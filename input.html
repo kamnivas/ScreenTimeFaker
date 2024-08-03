@@ -63,15 +63,43 @@
             align-items: center;
             padding: 20px;
         }
-        .day {
-            padding: 20px;
-            margin: 10px;
-            border: 1px solid #ccc;
-            cursor: pointer;
+        .input {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 50px;
+            width: calc(100% - 100px);
+            box-sizing: border-box;
+        }
+
+        .input label {
+            margin-right: 10px;
+            width: 120px;
+        }
+
+        .input input {
             width: 100px;
             text-align: center;
-            background-color: #222222;
+        }
+
+        .button {
+            background-color: #007aff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
             border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        input {
+            background-color: #222222;
+            color: #e0e0e0;
+            border: 1px solid #444444;
+            border-radius: 5px;
+            padding: 5px;
+            width: 100px;
+            text-align: center;
         }
         .clear-data-button-container {
             display: flex;
@@ -102,27 +130,48 @@
         </a>
         <div class="title">Add/Change Usage</div>
     </div>
+    <div class="input">
+        <label for="Sunday">Sunday:</label>
+        <input type="number" id="Sunday" value="0">
+    </div>
+    <div class="input">
+        <label for="Monday">Monday:</label>
+        <input type="number" id="Monday" value="0">
+    </div>
+    <div class="input">
+        <label for="Tuesday">Tuesday:</label>
+        <input type="number" id="Tuesday" value="0">
+    </div>
+    <div class="input">
+        <label for="Wednesday">Wednesday:</label>
+        <input type="number" id="Wednesday" value="0">
+    </div>
+    <div class="input">
+        <label for="Thursday">Thursday:</label>
+        <input type="number" id="Thursday" value="0">
+    </div>
+    <div class="input">
+        <label for="Friday">Friday:</label>
+        <input type="number" id="Friday" value="0">
+    </div>
+    <div class="input">
+        <label for="Saturday">Saturday:</label>
+        <input type="number" id="Saturday" value="0">
+    </div>
+    <div class="input">
+        <label for="phone-name">Phone Name:</label>
+        <input type="text" id="phone-name" value="Apple iPhone">
+    </div>
     <div class="button-container">
-        <div class="day" onclick="openDayDetails('sunday')">Sunday</div>
-        <div class="day" onclick="openDayDetails('monday')">Monday</div>
-        <div class="day" onclick="openDayDetails('tuesday')">Tuesday</div>
-        <div class="day" onclick="openDayDetails('wednesday')">Wednesday</div>
-        <div class="day" onclick="openDayDetails('thursday')">Thursday</div>
-        <div class="day" onclick="openDayDetails('friday')">Friday</div>
-        <div class="day" onclick="openDayDetails('saturday')">Saturday</div>
+        <button class="button" onclick="saveChanges()">Save Changes</button>    
     </div>
     <div class="clear-data-button-container">
         <button class="clear-data-button" onclick="clearAllData()">Clear All Data</button>
     </div>
+    <script src="./script.js"></script>
     <script>
-        function openDayDetails(day) {
-            window.location.href = `day-details.html?day=${day}`;
-        }
-
-        function clearAllData() {
-            localStorage.clear();
-            alert('All data cleared.');
-        }
-    </script>
+        // Load data when the page loads
+        window.onload = loadData;
+    </script>    
 </body>
 </html>
