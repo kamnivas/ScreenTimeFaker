@@ -334,13 +334,13 @@
             };
 
             // Average Time in h's and m's
-            const average = calculateWeeklyAverage(screenTimeData);
+            const average = calculateWeeklyAverage(totalScreenTimeData);
             document.getElementById('current-data-time').textContent = formatTime(average);
 
             // Set initial highlight to 'week' by default
             const defaultOptionIndex = Array.from(options).findIndex(option => option.dataset.option === 'week');
             setHighlightAndHeight(defaultOptionIndex);
-            updateIntervalLabels(screenTimeData);
+            updateIntervalLabels(totalScreenTimeData);
 
             // Add click event listeners
             options.forEach((option, index) => {

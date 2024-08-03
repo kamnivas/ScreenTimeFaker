@@ -309,16 +309,16 @@
 
         // Update the HTML with the calculated average
         document.addEventListener("DOMContentLoaded", () => {
-            const average = calculateWeeklyAverage(screenTimeData);
+            const average = calculateWeeklyAverage(totalScreenTimeData);
             document.getElementById('average-time').textContent = formatTime(average);
 
             const savedPhoneName = phoneNameUpper || 'Apple iPhone';
             updateDetails(savedPhoneName);
 
             // Update interval labels based on the average time, then render the bars properly
-            updateIntervalLabels(screenTimeData);
-            renderBars(screenTimeData);
-            renderAverageLine(screenTimeData, currentLabelType);
+            updateIntervalLabels(totalScreenTimeData);
+            renderBars(totalScreenTimeData);
+            renderAverageLine(totalScreenTimeData, currentLabelType);
         });
 
         if ('serviceWorker' in navigator) {

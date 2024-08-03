@@ -64,7 +64,7 @@
         }
         .category label {
             margin-right: 10px;
-            width: 120px;
+            width: 200px;
         }
         .category input {
             width: 100px;
@@ -132,11 +132,11 @@
             <input type="number" id="education" name="education" min="0" step="1" oninput="calculateTotal()">
         </div>
         <div class="category">
-            <label for="information">Information and Reading:</label>
+            <label for="information">Information & Reading:</label>
             <input type="number" id="information" name="information" min="0" step="1" oninput="calculateTotal()">
         </div>
         <div class="category">
-            <label for="health">Health and Fitness:</label>
+            <label for="health">Health & Fitness:</label>
             <input type="number" id="health" name="health" min="0" step="1" oninput="calculateTotal()">
         </div>
         <div class="category">
@@ -182,6 +182,14 @@
                 social: 0,
                 games: 0,
                 entertainment: 0,
+                creativity: 0,
+                productivity: 0,
+                education: 0,
+                information: 0,
+                health: 0,
+                utilities: 0,
+                shopping: 0,
+                travel: 0,
                 other: 0
             };
 
@@ -198,20 +206,50 @@
                 social: parseInt(document.getElementById("social").value) || 0,
                 games: parseInt(document.getElementById("games").value) || 0,
                 entertainment: parseInt(document.getElementById("entertainment").value) || 0,
+                creativity: parseInt(document.getElementById("creativity").value) || 0,
+                productivity: parseInt(document.getElementById("productivity").value) || 0,
+                education: parseInt(document.getElementById("education").value) || 0,
+                information: parseInt(document.getElementById("information").value) || 0,
+                health: parseInt(document.getElementById("health").value) || 0,
+                utilities: parseInt(document.getElementById("utilities").value) || 0,
+                shopping: parseInt(document.getElementById("shopping").value) || 0,
+                travel: parseInt(document.getElementById("travel").value) || 0,
                 other: parseInt(document.getElementById("other").value) || 0,
             };
             localStorage.setItem(day, JSON.stringify(data));
+
+            // Update total screen time data
+            updateTotalScreenTimeData();
+
             alert(`${day.charAt(0).toUpperCase() + day.slice(1)} data saved.`);
         }
 
-        function calculateTotal() {
-            const social = parseInt(document.getElementById("social").value) || 0;
-            const games = parseInt(document.getElementById("games").value) || 0;
-            const entertainment = parseInt(document.getElementById("entertainment").value) || 0;
-            const other = parseInt(document.getElementById("other").value) || 0;
+        function updateTotalScreenTimeData() {
+            let totalData = JSON.parse(localStorage.getItem('totalScreenTimeData')) || {
+                social: 0,
+                games: 0,
+                entertainment: 0,
+                creativity: 0,
+                productivity: 0,
+                education: 0,
+                information: 0,
+                health: 0,
+                utilities: 0,
+                shopping: 0,
+                travel: 0,
+                other: 0
+            };
 
-            const totalTime = social + games + entertainment + other;
-            document.getElementById("totalTime").innerText = totalTime;
+            const params = getQueryParams();
+            const day = params.day;
+
+            const dayData = JSON.parse(localStorage.getItem(day)) || {};
+
+            for (const category in dayData) {
+                totalData[category] = (totalData[category] || 0) + dayData[category];
+            }
+
+            localStorage.setItem('totalScreenTimeData', JSON.stringify(totalData));
         }
 
         window.onload = loadData;

@@ -1,5 +1,15 @@
-// Daily screen time data (in minutes)
-let screenTimeData = JSON.parse(localStorage.getItem('screenTimeData')) || [];
+// Import function to update total screen time data
+import {
+    sundayScreenTimeData,
+    mondayScreenTimeData,
+    tuesdayScreenTimeData,
+    wednesdayScreenTimeData,
+    thursdayScreenTimeData,
+    fridayScreenTimeData,
+    saturdayScreenTimeData,
+    totalScreenTimeData
+} from './data.js'
+
 let phoneName = localStorage.getItem('phoneName') || 'Apple iPhone';
 let phoneNameUpper = phoneName.toUpperCase();
 
@@ -20,13 +30,13 @@ function loadData() {
     const phoneName = localStorage.getItem('phoneName') || 'Apple iPhone';
 
     // Set values for the days of the week
-    document.getElementById('Sunday').value = screenTimeData[0];
-    document.getElementById('Monday').value = screenTimeData[1];
-    document.getElementById('Tuesday').value = screenTimeData[2];
-    document.getElementById('Wednesday').value = screenTimeData[3];
-    document.getElementById('Thursday').value = screenTimeData[4];
-    document.getElementById('Friday').value = screenTimeData[5];
-    document.getElementById('Saturday').value = screenTimeData[6];
+    document.getElementById('Sunday').value = sundayScreenTimeData;
+    document.getElementById('Monday').value = mondayScreenTimeData;
+    document.getElementById('Tuesday').value = tuesdayScreenTimeData;
+    document.getElementById('Wednesday').value = wednesdayScreenTimeData;
+    document.getElementById('Thursday').value = thursdayScreenTimeData;
+    document.getElementById('Friday').value = fridayScreenTimeData;
+    document.getElementById('Saturday').value = saturdayScreenTimeData;
 
     // Set phone name in input field
     document.getElementById('phone-name').value = phoneName;
@@ -38,20 +48,20 @@ function loadData() {
 
 // Save changes made on input.html
 function saveChanges() {
-    // Update screenTimeData with values from inputs
-    screenTimeData[0] = parseInt(document.getElementById('Sunday').value) || 0;
-    screenTimeData[1] = parseInt(document.getElementById('Monday').value) || 0;
-    screenTimeData[2] = parseInt(document.getElementById('Tuesday').value) || 0;
-    screenTimeData[3] = parseInt(document.getElementById('Wednesday').value) || 0;
-    screenTimeData[4] = parseInt(document.getElementById('Thursday').value) || 0;
-    screenTimeData[5] = parseInt(document.getElementById('Friday').value) || 0;
-    screenTimeData[6] = parseInt(document.getElementById('Saturday').value) || 0;
+    // Update totalScreenTimeData with values from inputs
+    sundayScreenTimeData = parseInt(document.getElementById('Sunday').value) || 0;
+    mondayScreenTimeData = parseInt(document.getElementById('Monday').value) || 0;
+    tuesdayScreenTimeData = parseInt(document.getElementById('Tuesday').value) || 0;
+    wednesdayScreenTimeData = parseInt(document.getElementById('Wednesday').value) || 0;
+    thursdayScreenTimeData = parseInt(document.getElementById('Thursday').value) || 0;
+    fridayScreenTimeData = parseInt(document.getElementById('Friday').value) || 0;
+    saturdayScreenTimeData = parseInt(document.getElementById('Saturday').value) || 0;
 
     // Get phone name from input field
     const phoneName = normalizeQuotes(document.getElementById('phone-name').value.trim());
 
     // Save data to localStorage
-    localStorage.setItem('screenTimeData', JSON.stringify(screenTimeData));
+    localStorage.setItem('totalScreenTimeData', JSON.stringify(totalScreenTimeData));
     localStorage.setItem('phoneName', phoneName);
 
     updateDetails(phoneName);
@@ -147,11 +157,11 @@ function getFormattedDate() {
 // Update current-data-time in details.html
 function updateCurrentData() {
     if (viewMode === 'day') {
-        // Find the last non-zero, non-null entry in screenTimeData
+        // Find the last non-zero, non-null entry in totalScreenTimeData
         let lastValidData = null;
-        for (let i = screenTimeData.length - 1; i >= 0; i--) {
-            if (screenTimeData[i] !== null && screenTimeData[i] > 0) {
-                lastValidData = screenTimeData[i];
+        for (let i = totalScreenTimeData.length - 1; i >= 0; i--) {
+            if (totalScreenTimeData[i] !== null && totalScreenTimeData[i] > 0) {
+                lastValidData = totalScreenTimeData[i];
                 break;
             }
         }
@@ -162,7 +172,7 @@ function updateCurrentData() {
 
         document.querySelector('.extra-grid').style.display = 'block';
     } else if (viewMode === 'week') {
-        currentDataTime = calculateWeeklyAverage(screenTimeData);
+        currentDataTime = calculateWeeklyAverage(totalScreenTimeData);
         document.querySelector('.current-data-time').textContent = formatTime(currentDataTime);
         document.querySelector('.current-data').textContent = 'Daily Average'; // Default label for week view
 
@@ -170,11 +180,11 @@ function updateCurrentData() {
     }
 }
 
-function updateIntervalLabels(screenTimeData) {
+function updateIntervalLabels(totalScreenTimeData) {
     const labelsElement = document.getElementById('interval-labels');
 
     // Find the maximum screen time from the data
-    const maxTime = Math.max(...screenTimeData);
+    const maxTime = Math.max(...totalScreenTimeData);
     
     let labels;
     
@@ -205,7 +215,7 @@ function updateIntervalLabels(screenTimeData) {
 }
 
 // Function to render the screen time data
-function renderBars(screenTimeData) {
+function renderBars(totalScreenTimeData) {
     const maxBarHeight = 28;
     let pixelPerMinute;
 
@@ -224,7 +234,7 @@ function renderBars(screenTimeData) {
     const barsContainer = document.getElementById('bars-container');
     barsContainer.innerHTML = ''; // Clear existing bars
 
-    screenTimeData.forEach((time, index) => {
+    totalScreenTimeData.forEach((time, index) => {
         if (time !== null && time > 0) {
             const height = time * pixelPerMinute;
             const xPosition = (index * 13.75) + 3.75;
@@ -253,9 +263,9 @@ function renderBars(screenTimeData) {
 }
 
 // Function to calculate the average y value for line height
-function calculateAverageY(screenTimeData, currentLabelType) {
+function calculateAverageY(totalScreenTimeData, currentLabelType) {
     // Calculate average screen time
-    const average = calculateWeeklyAverage(screenTimeData);
+    const average = calculateWeeklyAverage(totalScreenTimeData);
 
     // Calculate pixels per minute
     let pixelPerMinute;
@@ -277,12 +287,12 @@ function calculateAverageY(screenTimeData, currentLabelType) {
 }
 
 // Function to render the avg line based on the average y value
-function renderAverageLine(screenTimeData, currentLabelType) {
-    const hasNonZero = screenTimeData.some(time => time > 0);
+function renderAverageLine(totalScreenTimeData, currentLabelType) {
+    const hasNonZero = totalScreenTimeData.some(time => time > 0);
     if (!hasNonZero) {
         return;
     }
-    const averageYPosition = calculateAverageY(screenTimeData, currentLabelType);
+    const averageYPosition = calculateAverageY(totalScreenTimeData, currentLabelType);
 
     const averageLineContainer = document.getElementById('average-line-container');
     averageLineContainer.innerHTML = ''; // Clear any existing content
@@ -322,6 +332,6 @@ window.renderAverageLine = renderAverageLine;
 window.clearAllData = clearAllData;
 window.phoneName = phoneName;
 window.phoneNameUpper = phoneNameUpper;
-window.screenTimeData = screenTimeData;
+window.totalScreenTimeData = totalScreenTimeData;
 window.currentLabelType = currentLabelType;
 window.viewMode = viewMode;
