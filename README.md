@@ -3,7 +3,8 @@ This PWA (Progressive Web Application) is a WIP.
 Ever since my 126th commit (very specific) I have added the ability to change your phone name!
 The app is now usable for anyone (after it's finished, obviously)
 
-Although the app is still currently in development, you can still try it now:
+DISCLAIMER: SOME FEATURES WILL BE INCOMPELTE!!!
+If you would still like to try it, here are some steps:
 
 ============================== INSTALLATION ==============================
 1. Click/copy and paste this link: https://kamnivas.github.io/ScreenTimeFaker
