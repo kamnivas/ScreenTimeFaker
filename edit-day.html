@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Screen Time</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            font-weight: bold;
+            font-size: 24px;
+            display: block;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            font-size: 20px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="header">Edit Screen Time for <span id="dayName"></span></h1>
+    <div class="input-group">
+        <label for="social">Social:</label>
+        <input type="number" id="social" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="games">Games:</label>
+        <input type="number" id="games" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="entertainment">Entertainment:</label>
+        <input type="number" id="entertainment" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="creativity">Creativity:</label>
+        <input type="number" id="creativity" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="productivity">Productivity:</label>
+        <input type="number" id="productivity" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="finance">Finance:</label>
+        <input type="number" id="finance" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="education">Education:</label>
+        <input type="number" id="education" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="informationAndReading">Information and Reading:</label>
+        <input type="number" id="informationAndReading" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="healthAndFitness">Health and Fitness:</label>
+        <input type="number" id="healthAndFitness" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="utilities">Utilities:</label>
+        <input type="number" id="utilities" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="shoppingAndFood">Shopping and Food:</label>
+        <input type="number" id="shoppingAndFood" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="travel">Travel:</label>
+        <input type="number" id="travel" value="0" min="0">
+    </div>
+    <div class="input-group">
+        <label for="other">Other:</label>
+        <input type="number" id="other" value="0" min="0">
+    </div>
+    <button class="button" onclick="saveDayData()">Save</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Extract day from query parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const day = urlParams.get('day');
+    
+            document.getElementById('dayName').textContent = day;
+    
+            // Load existing data for the specified day
+            const dayData = JSON.parse(localStorage.getItem(day)) || {};
+    
+            Object.keys(dayData).forEach(key => {
+                const input = document.getElementById(key);
+                if (input) {
+                    input.value = dayData[key];
+                }
+            });
+        });
+    
+        function saveDay() {
+            const day = document.getElementById('dayName').textContent;
+    
+            if (!day) {
+                alert('No day specified!');
+                return;
+            }
+    
+            const dayData = {
+                social: parseInt(document.getElementById('social').value) || 0,
+                games: parseInt(document.getElementById('games').value) || 0,
+                entertainment: parseInt(document.getElementById('entertainment').value) || 0,
+                creativity: parseInt(document.getElementById('creativity').value) || 0,
+                productivity: parseInt(document.getElementById('productivity').value) || 0,
+                finance: parseInt(document.getElementById('finance').value) || 0,
+                education: parseInt(document.getElementById('education').value) || 0,
+                informationAndReading: parseInt(document.getElementById('informationAndReading').value) || 0,
+                healthAndFitness: parseInt(document.getElementById('healthAndFitness').value) || 0,
+                utilities: parseInt(document.getElementById('utilities').value) || 0,
+                shoppingAndFood: parseInt(document.getElementById('shoppingAndFood').value) || 0,
+                travel: parseInt(document.getElementById('travel').value) || 0,
+                other: parseInt(document.getElementById('other').value) || 0
+            };
+    
+            localStorage.setItem(day, JSON.stringify(dayData));
+            alert('Data saved successfully!');
+        }
+    </script>    
+</body>
+</html>
