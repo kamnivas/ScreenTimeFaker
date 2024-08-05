@@ -78,93 +78,107 @@
 <body>
     <div class="header">
         <a href="input.html" class="back-button">
+            <div class="back">Back</div>
             <svg viewBox="0 0 24 24" class="icon">
                 <path d="M15 18l-6-6 6-6" stroke="#007aff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </a>
-        <h1>Edit Screen Time for <span id="dayName"></span></h1>
+        <div class="title">Edit Day Data</div>
     </div>
-    <div class="input-group">
-        <label for="social">Social:</label>
-        <input type="number" id="social" value="0" min="0">
+    <div class="button-container">
+        <label for="day-select">Select Day:</label>
+        <select id="day-select" onchange="loadDayData()">
+            <option value="Sunday">Sunday</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+        </select>
     </div>
-    <div class="input-group">
-        <label for="games">Games:</label>
-        <input type="number" id="games" value="0" min="0">
-    </div>
-    <div class="input-group">
-        <label for="entertainment">Entertainment:</label>
-        <input type="number" id="entertainment" value="0" min="0">
-    </div>
-    <div class="input-group">
-        <label for="creativity">Creativity:</label>
-        <input type="number" id="creativity" value="0" min="0">
-    </div>
-    <div class="input-group">
-        <label for="productivity">Productivity:</label>
-        <input type="number" id="productivity" value="0" min="0">
-    </div>
-    <div class="input-group">
-        <label for="finance">Finance:</label>
-        <input type="number" id="finance" value="0" min="0">
-    </div>
-    <div class="input-group">
-        <label for="education">Education:</label>
-        <input type="number" id="education" value="0" min="0">
-    </div>
-    <div class="input-group">
-        <label for="informationAndReading">Information and Reading:</label>
-        <input type="number" id="informationAndReading" value="0" min="0">
-    </div>
-    <div class="input-group">
-        <label for="healthAndFitness">Health and Fitness:</label>
-        <input type="number" id="healthAndFitness" value="0" min="0">
-    </div>
-    <div class="input-group">
-        <label for="utilities">Utilities:</label>
-        <input type="number" id="utilities" value="0" min="0">
-    </div>
-    <div class="input-group">
-        <label for="shoppingAndFood">Shopping and Food:</label>
-        <input type="number" id="shoppingAndFood" value="0" min="0">
-    </div>
-    <div class="input-group">
-        <label for="travel">Travel:</label>
-        <input type="number" id="travel" value="0" min="0">
-    </div>
-    <div class="input-group">
-        <label for="other">Other:</label>
-        <input type="number" id="other" value="0" min="0">
+    <div id="inputs-container">
+        <div class="input">
+            <label for="social">Social:</label>
+            <input type="number" id="social" value="0">
+        </div>
+        <div class="input">
+            <label for="games">Games:</label>
+            <input type="number" id="games" value="0">
+        </div>
+        <div class="input">
+            <label for="entertainment">Entertainment:</label>
+            <input type="number" id="entertainment" value="0">
+        </div>
+        <div class="input">
+            <label for="creativity">Creativity:</label>
+            <input type="number" id="creativity" value="0">
+        </div>
+        <div class="input">
+            <label for="productivity">Productivity:</label>
+            <input type="number" id="productivity" value="0">
+        </div>
+        <div class="input">
+            <label for="finance">Finance:</label>
+            <input type="number" id="finance" value="0">
+        </div>
+        <div class="input">
+            <label for="education">Education:</label>
+            <input type="number" id="education" value="0">
+        </div>
+        <div class="input">
+            <label for="informationAndReading">Information & Reading:</label>
+            <input type="number" id="informationAndReading" value="0">
+        </div>
+        <div class="input">
+            <label for="healthAndFitness">Health & Fitness:</label>
+            <input type="number" id="healthAndFitness" value="0">
+        </div>
+        <div class="input">
+            <label for="utilities">Utilities:</label>
+            <input type="number" id="utilities" value="0">
+        </div>
+        <div class="input">
+            <label for="shoppingAndFood">Shopping & Food:</label>
+            <input type="number" id="shoppingAndFood" value="0">
+        </div>
+        <div class="input">
+            <label for="travel">Travel:</label>
+            <input type="number" id="travel" value="0">
+        </div>
+        <div class="input">
+            <label for="other">Other:</label>
+            <input type="number" id="other" value="0">
+        </div>
     </div>
     <button class="button" onclick="saveDayData()">Save</button>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Extract day from query parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const day = urlParams.get('day');
-    
-            document.getElementById('dayName').textContent = day;
-    
-            // Load existing data for the specified day
-            const dayData = JSON.parse(localStorage.getItem(day)) || {};
-    
-            Object.keys(dayData).forEach(key => {
-                const input = document.getElementById(key);
-                if (input) {
-                    input.value = dayData[key];
-                }
-            });
-        });
-    
+        window.onload = loadDayData;
+
+        // Load data for the selected day
+        function loadDayData() {
+            const selectedDay = document.getElementById('day-select').value;
+            const dayData = JSON.parse(localStorage.getItem(selectedDay)) || {};
+
+            document.getElementById('social').value = dayData.social || 0;
+            document.getElementById('games').value = dayData.games || 0;
+            document.getElementById('entertainment').value = dayData.entertainment || 0;
+            document.getElementById('creativity').value = dayData.creativity || 0;
+            document.getElementById('productivity').value = dayData.productivity || 0;
+            document.getElementById('finance').value = dayData.finance || 0;
+            document.getElementById('education').value = dayData.education || 0;
+            document.getElementById('informationAndReading').value = dayData.informationAndReading || 0;
+            document.getElementById('healthAndFitness').value = dayData.healthAndFitness || 0;
+            document.getElementById('utilities').value = dayData.utilities || 0;
+            document.getElementById('shoppingAndFood').value = dayData.shoppingAndFood || 0;
+            document.getElementById('travel').value = dayData.travel || 0;
+            document.getElementById('other').value = dayData.other || 0;
+        }
+
+        // Save data for the selected day
         function saveDayData() {
-            const day = document.getElementById('dayName').textContent;
-    
-            if (!day) {
-                alert('No day specified!');
-                return;
-            }
-    
+            const selectedDay = document.getElementById('day-select').value;
             const dayData = {
                 social: parseInt(document.getElementById('social').value) || 0,
                 games: parseInt(document.getElementById('games').value) || 0,
@@ -180,10 +194,25 @@
                 travel: parseInt(document.getElementById('travel').value) || 0,
                 other: parseInt(document.getElementById('other').value) || 0
             };
-    
-            localStorage.setItem(day, JSON.stringify(dayData));
+
+            // Remove categories with zero values
+            for (const key in dayData) {
+                if (dayData[key] === 0) {
+                    delete dayData[key];
+                }
+            }
+
+            localStorage.setItem(selectedDay, JSON.stringify(dayData));
             alert('Data saved successfully!');
         }
+
+        // Clear all data for the selected day
+        function clearAllData() {
+            const selectedDay = document.getElementById('day-select').value;
+            localStorage.removeItem(selectedDay);
+            alert('All data cleared for ' + selectedDay);
+        }
+
     </script>    
 </body>
 </html>

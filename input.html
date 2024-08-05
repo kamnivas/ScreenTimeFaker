@@ -118,6 +118,16 @@
             text-align: center;
             font-weight: bold;
         }
+        .day-container {
+            margin-bottom: 20px;
+        }
+        .day-container h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .day-container p {
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
@@ -128,36 +138,9 @@
                 <path d="M15 18l-6-6 6-6" stroke="#007aff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </a>
-        <div class="title">Settings</div>
+        <div class="title">Edit Data</div>
     </div>
-    <div>
-        <p>Sunday: <span id="sunday-total"></span> minutes</p>
-        <button onclick="editDay('Sunday')">Edit Sunday</button>
-    </div>
-    <div>
-        <p>Monday: <span id="monday-total"></span> minutes</p>
-        <button onclick="editDay('Monday')">Edit Monday</button>
-    </div>
-    <div>
-        <p>Tuesday: <span id="tuesday-total"></span> minutes</p>
-        <button onclick="editDay('Tuesday')">Edit Tuesday</button>
-    </div>
-    <div>
-        <p>Wednesday: <span id="wednesday-total"></span> minutes</p>
-        <button onclick="editDay('Wednesday')">Edit Wednesday</button>
-    </div>
-    <div>
-        <p>Thursday: <span id="thursday-total"></span> minutes</p>
-        <button onclick="editDay('Thursday')">Edit Thursday</button>
-    </div>
-    <div>
-        <p>Friday: <span id="friday-total"></span> minutes</p>
-        <button onclick="editDay('Friday')">Edit Friday</button>
-    </div>
-    <div>
-        <p>Saturday: <span id="saturday-total"></span> minutes</p>
-        <button onclick="editDay('Saturday')">Edit Saturday</button>
-    </div>
+    <div id="screenTimeData"></div>
     <div class="input">
         <label for="phone-name">Phone Name:</label>
         <input type="text" id="phone-name" value="Apple iPhone">
@@ -173,17 +156,34 @@
         // Load data when the page loads
         window.onload = loadData;
 
-        document.addEventListener("DOMContentLoaded", () => {
-            updateTotalScreenTime();
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const screenTimeDataContainer = document.getElementById('screenTimeData');
 
-        function updateTotalScreenTime() {
+            // Example list of days
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+            // Function to convert minutes to hours and minutes
+            function formatMinutes(minutes) {
+                const hours = Math.floor(minutes / 60);
+                const remainingMinutes = minutes % 60;
+                return `${hours}h ${remainingMinutes}m`;
+            }
+
+            // Populate the screen time data
             days.forEach(day => {
-                const totalScreenTime = calculateTotalScreenTime(JSON.parse(localStorage.getItem(`${day}ScreenTimeData`)) || {});
-                document.getElementById(`${day}-total`).textContent = totalScreenTime;
+                const dayData = JSON.parse(localStorage.getItem(day)) || {};
+                const totalMinutes = Object.values(dayData).reduce((sum, time) => sum + (parseInt(time) || 0), 0);
+                
+                const dayContainer = document.createElement('div');
+                dayContainer.className = 'day-container';
+                dayContainer.innerHTML = `
+                    <h2>${day}</h2>
+                    <p>Total Screen Time: ${formatMinutes(totalMinutes)}</p>
+                    <button onclick="editDay('${day}')">Edit ${day}</button>
+                `;
+                screenTimeDataContainer.appendChild(dayContainer);
             });
-        }
+        });
 
         function calculateTotalScreenTime(dayData) {
             return Object.values(dayData).reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);

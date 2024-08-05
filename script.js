@@ -38,15 +38,6 @@ function loadData() {
 
 // Save changes made on input.html
 function saveChanges() {
-    // Update screenTimeData with values from inputs
-    screenTimeData[0] = parseInt(document.getElementById('Sunday').value) || 0;
-    screenTimeData[1] = parseInt(document.getElementById('Monday').value) || 0;
-    screenTimeData[2] = parseInt(document.getElementById('Tuesday').value) || 0;
-    screenTimeData[3] = parseInt(document.getElementById('Wednesday').value) || 0;
-    screenTimeData[4] = parseInt(document.getElementById('Thursday').value) || 0;
-    screenTimeData[5] = parseInt(document.getElementById('Friday').value) || 0;
-    screenTimeData[6] = parseInt(document.getElementById('Saturday').value) || 0;
-
     // Get phone name from input field
     const phoneName = normalizeQuotes(document.getElementById('phone-name').value.trim());
 
