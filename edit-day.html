@@ -16,7 +16,6 @@
             text-align: center;
             color: #ffffff;
             margin-bottom: 20px;
-            font-size: 28px;
         }
         .header .back {
             position: absolute;
@@ -48,25 +47,15 @@
             stroke-linecap: round;
             stroke-linejoin: round;
         }
-        .input-group {
-            margin-bottom: 15px;
-        }
-        .input-group label {
-            font-weight: bold;
-            font-size: 24px;
-            display: block;
-            margin-bottom: 5px;
-            color: #ffffff;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            box-sizing: border-box;
-            font-size: 20px;
-            border: 1px solid #333;
-            border-radius: 4px;
-            background-color: #1e1e1e;
-            color: #ffffff;
+        input {
+            background-color: #222222;
+            color: #e0e0e0;
+            border: 1px solid #444444;
+            border-radius: 5px;
+            padding: 5px;
+            width: 100px;
+            text-align: center;
+            margin-top: 10px;
         }
         .button {
             display: inline-block;
@@ -159,7 +148,7 @@
         <button class="button" onclick="saveDayData()">Save</button>
 
     <script>
-        window.onload = loadDayData;
+        window.onload = loadDayData();
 
         // Load data for the selected day
         function loadDayData() {
