@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Screen Time</title>
     <style>
         body {
@@ -17,6 +18,12 @@
             margin-bottom: 20px;
             font-size: 28px;
         }
+        .header .back {
+            position: absolute;
+            left: 35px;
+            font-size: 17px;
+            color: #007aff;
+        }
         .header .back-button {
             position: absolute;
             left: 10px;
@@ -31,8 +38,8 @@
             justify-content: center;
         }
         .header .back-button svg {
-            width: 56px;
-            height: 56px;
+            width: 28px;
+            height: 28px;
         }
         .header .back-button svg path {
             fill: none;
@@ -78,10 +85,10 @@
 <body>
     <div class="header">
         <a href="input.html" class="back-button">
-            <div class="back">Back</div>
             <svg viewBox="0 0 24 24" class="icon">
                 <path d="M15 18l-6-6 6-6" stroke="#007aff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
+            <div class="back">Back</div>
         </a>
         <div class="title">Edit Day Data</div>
     </div>
@@ -97,7 +104,6 @@
             <option value="Saturday">Saturday</option>
         </select>
     </div>
-    <div id="inputs-container">
         <div class="input">
             <label for="social">Social:</label>
             <input type="number" id="social" value="0">
@@ -150,8 +156,7 @@
             <label for="other">Other:</label>
             <input type="number" id="other" value="0">
         </div>
-    </div>
-    <button class="button" onclick="saveDayData()">Save</button>
+        <button class="button" onclick="saveDayData()">Save</button>
 
     <script>
         window.onload = loadDayData;
