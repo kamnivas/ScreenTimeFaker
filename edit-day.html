@@ -147,13 +147,9 @@
         </div>
         <button class="button" onclick="saveDayData()">Save</button>
 
+    <script src="./script.js"></script>
     <script>
         window.onload = loadDayData();
-
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
 
         // Load data for the selected day
         function loadDayData() {

@@ -301,6 +301,11 @@ function clearAllData() {
     alert('All Data Cleared');
 }
 
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
 window.loadData = loadData;
 window.saveChanges = saveChanges;
 window.updateTime = updateTime;
@@ -311,6 +316,7 @@ window.updateIntervalLabels = updateIntervalLabels;
 window.renderBars = renderBars;
 window.renderAverageLine = renderAverageLine;
 window.clearAllData = clearAllData;
+window.getQueryParam = getQueryParam;
 window.phoneName = phoneName;
 window.phoneNameUpper = phoneNameUpper;
 window.screenTimeData = screenTimeData;
