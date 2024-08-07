@@ -148,7 +148,7 @@
     <div id="screenTimeData"></div>
     <div class="input">
         <label for="phone-name">Phone Name:</label>
-        <input type="text" id="phone-name" value="Apple iPhone">
+        <input type="text" id="phone-name" value="">
     </div>
     <div class="button-container">
         <button class="day-button"><a href="edit-day.html?day=Sunday">Sunday</a></button>
@@ -172,6 +172,10 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             const screenTimeDataContainer = document.getElementById('screenTimeData');
+            const phoneName = localStorage.getItem('phoneName') || 'Apple iPhone';
+
+            // Initialize Phone Name
+            document.getElementById('phone-name').value = phoneName;
 
             // Example list of days
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
