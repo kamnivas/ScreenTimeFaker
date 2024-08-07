@@ -105,7 +105,7 @@
             display: flex;
             justify-content: center;
             padding: 20px;
-            margin-top: 50px;
+            margin-top: 30px;
         }
         .clear-data-button {
             background-color: #ff3b30;
@@ -118,15 +118,20 @@
             text-align: center;
             font-weight: bold;
         }
-        .day-container {
-            margin-bottom: 20px;
+        .day-button {
+            width: 100%;
+            padding: 12px;
+            color: #ffffff;
+            background-color: #333333;
+            border: 1px solid #555555;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            text-align: left;
         }
-        .day-container h2 {
-            margin: 0;
-            font-size: 24px;
-        }
-        .day-container p {
-            font-size: 20px;
+        .day-button a {
+            text-decoration: none;
+            color: #ffffff;
+            display: block;
         }
     </style>
 </head>
@@ -144,6 +149,15 @@
     <div class="input">
         <label for="phone-name">Phone Name:</label>
         <input type="text" id="phone-name" value="Apple iPhone">
+    </div>
+    <div class="button-container">
+        <button class="day-button"><a href="edit-day.html?day=Sunday">Sunday</a></button>
+        <button class="day-button"><a href="edit-day.html?day=Monday">Monday</a></button>
+        <button class="day-button"><a href="edit-day.html?day=Tuesday">Tuesday</a></button>
+        <button class="day-button"><a href="edit-day.html?day=Wednesday">Wednesday</a></button>
+        <button class="day-button"><a href="edit-day.html?day=Thursday">Thursday</a></button>
+        <button class="day-button"><a href="edit-day.html?day=Friday">Friday</a></button>
+        <button class="day-button"><a href="edit-day.html?day=Saturday">Saturday</a></button>
     </div>
     <div class="button-container">
         <button class="button" onclick="saveChanges()">Save Changes</button>    
@@ -168,21 +182,6 @@
                 const remainingMinutes = minutes % 60;
                 return `${hours}h ${remainingMinutes}m`;
             }
-
-            // Populate the screen time data
-            days.forEach(day => {
-                const dayData = JSON.parse(localStorage.getItem(day)) || {};
-                const totalMinutes = Object.values(dayData).reduce((sum, time) => sum + (parseInt(time) || 0), 0);
-                
-                const dayContainer = document.createElement('div');
-                dayContainer.className = 'day-container';
-                dayContainer.innerHTML = `
-                    <h2>${day}</h2>
-                    <p>Total Screen Time: ${formatMinutes(totalMinutes)}</p>
-                    <button onclick="editDay('${day}')">Edit ${day}</button>
-                `;
-                screenTimeDataContainer.appendChild(dayContainer);
-            });
         });
 
         function calculateTotalScreenTime(dayData) {

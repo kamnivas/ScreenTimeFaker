@@ -150,6 +150,11 @@
     <script>
         window.onload = loadDayData();
 
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
         // Load data for the selected day
         function loadDayData() {
             const selectedDay = document.getElementById('day-select').value;
@@ -200,13 +205,14 @@
             alert('Data saved successfully!');
         }
 
-        // Clear all data for the selected day
-        function clearAllData() {
-            const selectedDay = document.getElementById('day-select').value;
-            localStorage.removeItem(selectedDay);
-            alert('All data cleared for ' + selectedDay);
-        }
-
+        document.addEventListener('DOMContentLoaded', function() {
+            const day = getQueryParam('day');
+            if (day) {
+                const daySelect = document.getElementById('day-select');
+                daySelect.value = day;
+                loadDayData();
+            }
+        });
     </script>    
 </body>
 </html>
