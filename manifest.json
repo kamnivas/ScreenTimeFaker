@@ -1,7 +1,7 @@
 {
     "short_name": "ScreenTimeFaker",
     "name": "Screen Time Faker",
-    "description": "A hyper realistic replica of the iOS screen time feature",
+    "description": "A hyper-realistic replica of the iOS screen time feature",
     "icons": [
       {
         "src": "./assets/images/settings_icon_192.png",

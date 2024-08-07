@@ -38,10 +38,8 @@ function loadData() {
 
 // Save changes made on input.html
 function saveChanges() {
-    // Get phone name from input field
     const phoneName = normalizeQuotes(document.getElementById('phone-name').value.trim());
 
-    // Save data to localStorage
     localStorage.setItem('screenTimeData', JSON.stringify(screenTimeData));
     localStorage.setItem('phoneName', phoneName);
 
@@ -71,12 +69,10 @@ function updateDetails(phoneName) {
     const phoneNameElement = document.getElementById('phone-name');
     const titleElement = document.querySelector('.header .title');
 
-    // Update phone name with uppercase version
     if (phoneNameElement) {
         phoneNameElement.textContent = phoneName.toUpperCase();
     }
 
-    // Update title with real phone name
     if (titleElement) {
         titleElement.textContent = phoneName;
     }
@@ -87,7 +83,7 @@ function calculateWeeklyAverage(data) {
     // Filter out null and zero values
     const filteredData = data.filter(time => time !== null && time > 0);
 
-    if (filteredData.length === 0) return 0; // Avoid division by zero if no valid data
+    if (filteredData.length === 0) return 0; // Avoid division by zero
 
     const total = filteredData.reduce((sum, time) => sum + time, 0);
     const average = total / filteredData.length;
@@ -138,7 +134,7 @@ function getFormattedDate() {
 // Update current-data-time in details.html
 function updateCurrentData() {
     if (viewMode === 'day') {
-        // Find the last non-zero, non-null entry in screenTimeData
+        // Find the last non-zero/null entry in screenTimeData ("Today")
         let lastValidData = null;
         for (let i = screenTimeData.length - 1; i >= 0; i--) {
             if (screenTimeData[i] !== null && screenTimeData[i] > 0) {
@@ -149,13 +145,13 @@ function updateCurrentData() {
         currentDataTime = lastValidData !== null ? lastValidData : 0;
 
         document.querySelector('.current-data-time').textContent = formatTime(currentDataTime);
-        document.querySelector('.current-data').textContent = getFormattedDate(); // Update the label
+        document.querySelector('.current-data').textContent = getFormattedDate();
 
         document.querySelector('.extra-grid').style.display = 'block';
     } else if (viewMode === 'week') {
         currentDataTime = calculateWeeklyAverage(screenTimeData);
         document.querySelector('.current-data-time').textContent = formatTime(currentDataTime);
-        document.querySelector('.current-data').textContent = 'Daily Average'; // Default label for week view
+        document.querySelector('.current-data').textContent = 'Daily Average';
 
         document.querySelector('.extra-grid').style.display = 'none';
     }
@@ -170,24 +166,23 @@ function updateIntervalLabels(screenTimeData) {
     let labels;
     
     // Determine labels based on maximum usage
-    if (maxTime >= 12 * 60) { // If max time is 12 hours or more
+    if (maxTime >= 12 * 60) {
         labels = ["0", "12h", "24h"];
         currentLabelType = 'label01224'
-    } else if (maxTime >= 6 * 60) { // If max time is 6 hours or more
+    } else if (maxTime >= 6 * 60) {
         labels = ["0", "6h", "12h"];
         currentLabelType = 'label0612'
-    } else if (maxTime >= 4 * 60) { // If max time is 4 hours or more
+    } else if (maxTime >= 4 * 60) {
         labels = ["0", "4h", "8h"];
         currentLabelType = 'label048'
-    } else if (maxTime >= 2 * 60) { // If max time is 2 hours or more
+    } else if (maxTime >= 2 * 60) {
         labels = ["0", "2h", "4h"];
         currentLabelType = 'label024'
-    } else { // Default Case (0, 1, 2 hours)
+    } else {
         labels = ["0", "1h", "2h"];
         currentLabelType = 'label012'
     }
 
-    // Update the labels in the HTML
     labelsElement.innerHTML = `
         <text x="98" y="39.5" class="interval-label">${labels[0]}</text>
         <text x="98" y="25.5" class="interval-label">${labels[1]}</text>
@@ -213,7 +208,7 @@ function renderBars(screenTimeData) {
     }
 
     const barsContainer = document.getElementById('bars-container');
-    barsContainer.innerHTML = ''; // Clear existing bars
+    barsContainer.innerHTML = '';
 
     screenTimeData.forEach((time, index) => {
         if (time !== null && time > 0) {
@@ -227,7 +222,7 @@ function renderBars(screenTimeData) {
             bar.setAttribute('y', yPosition);
             bar.setAttribute('width', 6.25);
             bar.setAttribute('height', height);
-            bar.setAttribute('rx', 0.75); // Round all corners (cover rounded bottom later)
+            bar.setAttribute('rx', 0.75);
             bar.setAttribute('fill', '#40c8e0');
             barsContainer.appendChild(bar);
 
@@ -236,7 +231,7 @@ function renderBars(screenTimeData) {
             coverRect.setAttribute('x', xPosition);
             coverRect.setAttribute('y', yPosition + height - 1);
             coverRect.setAttribute('width', 6.25);
-            coverRect.setAttribute('height', 1); // Height of the cover to hide rounded bottom
+            coverRect.setAttribute('height', 1);
             coverRect.setAttribute('fill', '#40c8e0');
             barsContainer.appendChild(coverRect);
         }
@@ -251,15 +246,15 @@ function calculateAverageY(screenTimeData, currentLabelType) {
     // Calculate pixels per minute
     let pixelPerMinute;
     if (currentLabelType === 'label01224') {
-        pixelPerMinute = 28 / (24 * 60); // 24 hours maximum for this label type
+        pixelPerMinute = 28 / (24 * 60);
     } else if (currentLabelType === 'label0612') {
-        pixelPerMinute = 28 / (12 * 60); // 12 hours maximum for this label type
+        pixelPerMinute = 28 / (12 * 60);
     } else if (currentLabelType === 'label048') {
-        pixelPerMinute = 28 / (8 * 60); // 8 hours maximum for this label type
+        pixelPerMinute = 28 / (8 * 60);
     } else if (currentLabelType === 'label024') {
-        pixelPerMinute = 28 / (4 * 60); // 4 hours maximum for this label type
+        pixelPerMinute = 28 / (4 * 60);
     } else {
-        pixelPerMinute = 28 / (2 * 60); // 2 hours maximum for this label type
+        pixelPerMinute = 28 / (2 * 60);
     }
 
     // Calculate average Y position

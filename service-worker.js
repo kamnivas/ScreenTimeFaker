@@ -7,6 +7,7 @@ self.addEventListener('install', function(event) {
         '/index.html',
         '/details.html',
         '/input.html',
+        'edit-day.html',
         '/script.js',
         '/manifest.json',
         '/assets/images/settings_icon_192.png',
