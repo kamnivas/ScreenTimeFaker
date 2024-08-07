@@ -1,4 +1,4 @@
-let screenTimeData = [];
+let screenTimeData = localStorage.getItem(screenTimeData) || [];
 let phoneName = localStorage.getItem('phoneName') || 'Apple iPhone';
 let phoneNameUpper = phoneName.toUpperCase();
 
@@ -22,26 +22,10 @@ function normalizeQuotes(text) {
         .replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
 }
 
-// Function to calculate total screen time for each day
-function getDayTotal(day) {
-    const dayData = JSON.parse(localStorage.getItem(day)) || {};
-    const totalMinutes = Object.values(dayData).reduce((sum, time) => sum + (parseInt(time) || 0), 0);
-    return totalMinutes;
-}
-
 // Load saved data
 function loadData() {
     // Retrieve phoneName from localStorage or set a default value
     const phoneName = localStorage.getItem('phoneName') || 'Apple iPhone';
-
-    // Totals for each day
-    sundayTotal = getDayTotal('Sunday');
-    mondayTotal = getDayTotal('Monday');
-    tuesdayTotal = getDayTotal('Tuesday');
-    wednesdayTotal = getDayTotal('Wednesday');
-    thursdayTotal = getDayTotal('Thursday');
-    fridayTotal = getDayTotal('Friday');
-    saturdayTotal = getDayTotal('Saturday');
 
     screenTimeData = [sundayTotal, mondayTotal, wednesdayTotal, thursdayTotal, fridayTotal, saturdayTotal];
 
@@ -329,6 +313,13 @@ window.renderBars = renderBars;
 window.renderAverageLine = renderAverageLine;
 window.clearAllData = clearAllData;
 window.getQueryParam = getQueryParam;
+window.sundayTotal = sundayTotal;
+window.mondayTotal = mondayTotal;
+window.tuesdayTotal = tuesdayTotal;
+window.wednesdayTotal = wednesdayTotal;
+window.thursdayTotal = thursdayTotal;
+window.fridayTotal = fridayTotal;
+window.saturdayTotal = saturdayTotal;
 window.phoneName = phoneName;
 window.phoneNameUpper = phoneNameUpper;
 window.screenTimeData = screenTimeData;

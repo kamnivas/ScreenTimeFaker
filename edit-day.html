@@ -149,7 +149,15 @@
 
     <script src="./script.js"></script>
     <script>
-        window.onload = loadDayData();
+        window.onload = function() {
+            loadDayData();
+            const day = getQueryParam('day');
+            if (day) {
+                const daySelect = document.getElementById('day-select');
+                daySelect.value = day;
+                loadDayData();
+            }
+        }
 
         // Load data for the selected day
         function loadDayData() {
@@ -160,8 +168,7 @@
             document.getElementById('games').value = dayData.games || 0;
             document.getElementById('entertainment').value = dayData.entertainment || 0;
             document.getElementById('creativity').value = dayData.creativity || 0;
-            document.getElementById('productivity').value = dayData.productivity || 0;
-            document.getElementById('finance').value = dayData.finance || 0;
+            document.getElementById('productivityAndFinance').value = dayData.productivity || 0;
             document.getElementById('education').value = dayData.education || 0;
             document.getElementById('informationAndReading').value = dayData.informationAndReading || 0;
             document.getElementById('healthAndFitness').value = dayData.healthAndFitness || 0;
@@ -174,6 +181,7 @@
         // Save data for the selected day
         function saveDayData() {
             const selectedDay = document.getElementById('day-select').value;
+
             const dayData = {
                 social: parseInt(document.getElementById('social').value) || 0,
                 games: parseInt(document.getElementById('games').value) || 0,
@@ -187,8 +195,45 @@
                 utilities: parseInt(document.getElementById('utilities').value) || 0,
                 shoppingAndFood: parseInt(document.getElementById('shoppingAndFood').value) || 0,
                 travel: parseInt(document.getElementById('travel').value) || 0,
-                other: parseInt(document.getElementById('other').value) || 0
+                other: parseInt(document.getElementById('other').value) || 0,
             };
+
+            // Calculate the total using values from dayData, and update screenTimeData
+            const total = Object.values(dayData).reduce((acc, value) => acc + value, 0);
+            switch(selectedDay) {
+                case 'Sunday':
+                    sundayTotal = total;
+                    localStorage.setItem('sundayTotal', sundayTotal);
+                    break;
+                case 'Monday':
+                    mondayTotal = total;
+                    localStorage.setItem('mondayTotal', sundayTotal);
+                    break;
+                case 'Tuesday':
+                    tuesdayTotal = total;
+                    localStorage.setItem('tuesdayTotal', sundayTotal);
+                    break;
+                case 'Wednesday':
+                    wednesdayTotal = total;
+                    localStorage.setItem('wednesdayTotal', sundayTotal);
+                    break;
+                case 'Thursday':
+                    thursdayTotal = total;
+                    localStorage.setItem('thursdayTotal', sundayTotal);
+                    break;
+                case 'Friday':
+                    fridayTotal = total;
+                    localStorage.setItem('fridayTotal', sundayTotal);
+                    break;
+                case 'Saturday':
+                    saturdayTotal = total;
+                    localStorage.setItem('saturdayTotal', sundayTotal);
+                    break;
+            }
+
+            // Update screenTimeData array
+            screenTimeData = [sundayTotal, mondayTotal, tuesdayTotal, wednesdayTotal, thursdayTotal, fridayTotal, saturdayTotal];
+            localStorage.setItem('screenTimeData', screenTimeData);
 
             // Remove categories with zero values
             for (const key in dayData) {
@@ -197,18 +242,12 @@
                 }
             }
 
+            // Save to localStorage
             localStorage.setItem(selectedDay, JSON.stringify(dayData));
-            alert('Data saved successfully!');
+            
+            // Display alert with total
+            alert(`Data saved successfully!\nTotal time: ${total} \nSelected Day: ${selectedDay}`);
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const day = getQueryParam('day');
-            if (day) {
-                const daySelect = document.getElementById('day-select');
-                daySelect.value = day;
-                loadDayData();
-            }
-        });
     </script>    
 </body>
 </html>
