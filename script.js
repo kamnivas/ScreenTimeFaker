@@ -1,5 +1,4 @@
-// Daily screen time data (in minutes)
-let screenTimeData = JSON.parse(localStorage.getItem('screenTimeData')) || [];
+let screenTimeData = [];
 let phoneName = localStorage.getItem('phoneName') || 'Apple iPhone';
 let phoneNameUpper = phoneName.toUpperCase();
 
@@ -9,9 +8,25 @@ let currentTime = '';
 let viewMode = 'week';
 let currentDataTime = '';
 
+// Global variables for daily totals
+let sundayTotal = 0;
+let mondayTotal = 0;
+let tuesdayTotal = 0;
+let wednesdayTotal = 0;
+let thursdayTotal = 0;
+let fridayTotal = 0;
+let saturdayTotal = 0;
+
 function normalizeQuotes(text) {
     return text
         .replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
+}
+
+// Function to calculate total screen time for each day
+function getDayTotal(day) {
+    const dayData = JSON.parse(localStorage.getItem(day)) || {};
+    const totalMinutes = Object.values(dayData).reduce((sum, time) => sum + (parseInt(time) || 0), 0);
+    return totalMinutes;
 }
 
 // Load saved data
@@ -19,14 +34,16 @@ function loadData() {
     // Retrieve phoneName from localStorage or set a default value
     const phoneName = localStorage.getItem('phoneName') || 'Apple iPhone';
 
-    // Set values for the days of the week
-    document.getElementById('Sunday').value = screenTimeData[0];
-    document.getElementById('Monday').value = screenTimeData[1];
-    document.getElementById('Tuesday').value = screenTimeData[2];
-    document.getElementById('Wednesday').value = screenTimeData[3];
-    document.getElementById('Thursday').value = screenTimeData[4];
-    document.getElementById('Friday').value = screenTimeData[5];
-    document.getElementById('Saturday').value = screenTimeData[6];
+    // Totals for each day
+    sundayTotal = getDayTotal('Sunday');
+    mondayTotal = getDayTotal('Monday');
+    tuesdayTotal = getDayTotal('Tuesday');
+    wednesdayTotal = getDayTotal('Wednesday');
+    thursdayTotal = getDayTotal('Thursday');
+    fridayTotal = getDayTotal('Friday');
+    saturdayTotal = getDayTotal('Saturday');
+
+    screenTimeData = [sundayTotal, mondayTotal, wednesdayTotal, thursdayTotal, fridayTotal, saturdayTotal];
 
     // Set phone name in input field
     document.getElementById('phone-name').value = phoneName;
